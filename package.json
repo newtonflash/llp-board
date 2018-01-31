@@ -1,0 +1,30 @@
+{
+  "name": "llp-board",
+  "version": "1.0.0",
+  "description": "llp-board is an agile board with task and status",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/newtonflash/llp-board.git"
+  },
+  "keywords": [
+    "llp-board",
+    "agile",
+    "board",
+    "task",
+    "board"
+  ],
+  "author": "Pradyumna Ghose",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/newtonflash/llp-board/issues"
+  },
+  "homepage": "https://github.com/newtonflash/llp-board#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "react": "^16.2.0"
+  }
+}

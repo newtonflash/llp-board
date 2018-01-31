@@ -1,0 +1,34 @@
+node_modules
+jspm_packages
+.sass-cache
+
+# Optional REPL history
+.node_repl_history
+
+
+
+
+# EDITOR EXTENSIONS
+.idea/
+.vscode/
+
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+
+# Runtime data
+pids
+*.pid
+*.seed
+
+
+# Optional npm cache directory
+.npm
+
+
+# DS Store
+.DS_Store
+
