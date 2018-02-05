@@ -12,10 +12,13 @@ export default class LLPBoard extends Component {
         this.state = {
             boards : [
                 {
-                    title: "Aurstrallian Security Exchange",
-                    description : ""
+                    title: "ASX",
+                    desc : "Dashboard for Australlian security exchange"
+                },
+                {
+                    title: "European Tour",
+                    desc : "This is all about golf in europe."
                 }
-                "First project"
             ]
         };
         this.onItemRemove = this.onItemRemove.bind(this);
@@ -31,13 +34,18 @@ export default class LLPBoard extends Component {
 
     }
 
-    onItemAdd(data){
-        console.log(data);
+    onItemAdd(data) {
+        console.log(data)
+        var boards = [...this.state.boards, data];
+        this.setState({
+            boards: boards
+        });
     }
+
 
     render() {
         const getBoards = this.state.boards.map((item, index) => {
-                                return <BoardItem key="index" data={item} index={index}></BoardItem>;
+                                return <BoardItem key={index} data={item} index={index}></BoardItem>;
                             });
 
         return (

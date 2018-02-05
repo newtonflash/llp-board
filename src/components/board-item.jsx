@@ -17,7 +17,8 @@ export default class BoardItem extends React.Component {
 
         return (
             (<Paper className="boards-item">
-                {this.props.data.item}
+                <h2>{this.props.data.title}</h2>
+                <p>{this.props.data.desc}</p>
 
                 <div className="boards-item__cta-holder">
                     <RaisedButton label="VIEW" className="board-item__action-btn" primary={true} data-id={this.props.index}></RaisedButton>

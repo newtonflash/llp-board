@@ -15,7 +15,7 @@ export default class AddItem extends React.Component {
         this.state = {
             open: false,
             boardName : "",
-            boardDescription: ""
+            desc: ""
         };
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
@@ -23,8 +23,8 @@ export default class AddItem extends React.Component {
 
     onSubmit () {
         this.props.onItemAdd({
-            name: this.state.boardName,
-            description: this.state.boardDescription
+            title: this.state.title,
+            desc: this.state.desc
         });
         this.setState({open: false});
     }
@@ -32,19 +32,19 @@ export default class AddItem extends React.Component {
     onNameChange(event){
         let _name = event.target.value;
         this.setState({
-            boardName: _name
+            title: _name
         });
     }
 
     onDescriptionChange(event){
         let _desc = event.target.value;
         this.setState({
-            boardDescription: _desc
+            desc: _desc
         })
     }
 
     handleOpen() {
-        this.setState({open: true, boardName: "", boardDescription:""});
+        this.setState({open: true, title: "", desc:""});
 
     };
 
@@ -67,7 +67,7 @@ export default class AddItem extends React.Component {
                         <div>
 
                             <TextField
-                                hintText="Enter project name" value={this.state.boardName} onChange={(evt) => {this.onNameChange(evt)}}/>
+                                hintText="Enter project name" value={this.state.title} onChange={(evt) => {this.onNameChange(evt)}}/>
 
                             <br/>
 
@@ -76,7 +76,7 @@ export default class AddItem extends React.Component {
                                 rows={2}
                                 rowsMax={4}
                                 fullWidth={true}
-                                hintText="Put some description" value={this.state.boardDescription} onChange={(evt) => {this.onDescriptionChange(evt)}}/>
+                                hintText="Put some description" value={this.state.desc} onChange={(evt) => {this.onDescriptionChange(evt)}}/>
                             <br/>
 
 

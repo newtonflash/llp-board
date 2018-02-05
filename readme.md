@@ -4,6 +4,11 @@
 
 npm start
 
+in a different tab
+
+ npm run webpack
+
+
 ### URL to access: http://localhost:1024/
 
 
