@@ -28,6 +28,11 @@ export default class Board extends Component {
         };
     }
 
+
+
+
+
+
     render() {
         const getBoards = this.state.boards.map((item, index) => {
                                 return <BoardItem key={index} data={item} index={index}></BoardItem>;

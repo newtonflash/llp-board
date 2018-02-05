@@ -28,6 +28,31 @@ export default class DashBoard extends Component {
         this.onItemAdd = this.onItemAdd.bind(this);
     }
 
+    componentDidMount(){
+        let query = {
+                query: "{boards{id,desc,title}}"
+            },
+            variables: {  };
+
+        fetch ('/graphql', {
+            method: 'POST',
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            }),
+            body: JSON.stringify(query)
+        })
+            .then( response => {
+                return response.json();
+            }).then((json) => {
+                this.setState({
+                    boards: json.data.boards
+                 });
+
+        }).catch( error => {
+            console.log(error);
+        })
+    };
+
     onItemRemove (data){
 
     }

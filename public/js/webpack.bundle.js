@@ -28277,6 +28277,32 @@ var DashBoard = function (_Component) {
     }
 
     _createClass(DashBoard, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var _this2 = this;
+
+            var query = {
+                query: "{boards{id,desc,title}}"
+            },
+                variables = void 0;
+
+            fetch('/graphql', {
+                method: 'POST',
+                headers: new Headers({
+                    'Content-Type': 'application/json'
+                }),
+                body: JSON.stringify(query)
+            }).then(function (response) {
+                return response.json();
+            }).then(function (json) {
+                _this2.setState({
+                    boards: json.data.boards
+                });
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
+    }, {
         key: 'onItemRemove',
         value: function onItemRemove(data) {}
     }, {
