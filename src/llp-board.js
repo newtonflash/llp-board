@@ -10,44 +10,49 @@ export default class LLPBoard extends Component {
     constructor(){
         super();
         this.state = {
-            todoList : [
+            boards : [
+                {
+                    title: "Aurstrallian Security Exchange",
+                    description : ""
+                }
                 "First project"
             ]
         };
-        this.removeItem = this.removeItem.bind(this);
+        this.onItemRemove = this.onItemRemove.bind(this);
+        this.onItemUpdate = this.onItemUpdate.bind(this);
+        this.onItemAdd = this.onItemAdd.bind(this);
     }
 
-    removeItem(evt){
-        console.log(evt.target.dataset.id);
-        var newState = this.state.todoList.filter((item, index) => {
-
-                if(index !== evt.target.dataset.id *1 ) return item;
-    });
-        this.setState({
-            todoList : newState
-        });
+    onItemRemove (data){
 
     }
 
+    onItemUpdate (data){
+
+    }
+
+    onItemAdd(data){
+        console.log(data);
+    }
 
     render() {
-        const getTodoList = this.state.todoList.map((item, index) => {
+        const getBoards = this.state.boards.map((item, index) => {
                                 return <BoardItem key="index" data={item} index={index}></BoardItem>;
                             });
 
-    return (
-        <React.Fragment>
-            <AppBar
-                title="LLP Board"
-                iconClassNameRight="muidocs-icon-navigation-expand-more">
+        return (
+            <React.Fragment>
+                <AppBar
+                    title="LLP Board"
+                    iconClassNameRight="muidocs-icon-navigation-expand-more">
 
-            </AppBar>
-            <div className="board-list">
-                {getTodoList}
-                <AddItem />
-            </div>
-        </React.Fragment>
-    );
+                </AppBar>
+                <div className="board-list">
+                    {getBoards}
+                    <AddItem onItemAdd={this.onItemAdd}/>
+                </div>
+            </React.Fragment>
+        );
     }
 }
 

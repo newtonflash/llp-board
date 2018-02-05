@@ -1,6 +1,7 @@
 import React from 'react';
 import Paper from 'material-ui/Paper';
-import FlatButton from 'material-ui/FlatButton';
+
+import RaisedButton from 'material-ui/RaisedButton';
 import styles from './board-item.css';
 
 export default class BoardItem extends React.Component {
@@ -19,8 +20,8 @@ export default class BoardItem extends React.Component {
                 {this.props.data.item}
 
                 <div className="boards-item__cta-holder">
-                    <FlatButton label="VIEW" primary={true} data-id={this.props.index}></FlatButton>
-                    <FlatButton label="EDIT" primary={true} data-id={this.props.index}></FlatButton>
+                    <RaisedButton label="VIEW" className="board-item__action-btn" primary={true} data-id={this.props.index}></RaisedButton>
+                    <RaisedButton label="EDIT" className="board-item__action-btn" primary={true} data-id={this.props.index}></RaisedButton>
                 </div>
 
             </Paper>)

@@ -3,7 +3,7 @@
     display: inline-block;
     margin: 20px;
     padding:20px;
-    width:200px;
+    width:260px;
     min-height: 100px;
     vertical-align: top;
 }
@@ -11,4 +11,9 @@
 .boards-item__cta-holder{
     text-align: center;
     margin-top:20px;
+}
+
+.board-item__action-btn{
+    display: inline-block;
+    margin: 10px 10px 0;
 }
