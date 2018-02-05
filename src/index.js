@@ -1,17 +1,53 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import LLPBoard from './llp-board';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import Dashboard from './containers/dashboard';
+import Board from './containers/board';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { Provider } from 'react-redux';
+import createStore from 'redux';
+import {reducer} from './reducers/';
 
-const App = () => {
+
+const DashBoardWrapper = () =>{
     return (
         <MuiThemeProvider>
-            <LLPBoard />
+            <Dashboard />
         </MuiThemeProvider>
+    )
+};
+
+const BoardWrapper = () => {
+    return (
+        <MuiThemeProvider>
+            <Board/>
+        </MuiThemeProvider>
+    )
+};
+
+
+const App = () => {
+
+    return (
+
+            <Router>
+                <Switch>
+                    <Route exact path="/" component={DashBoardWrapper} />
+                    <Route path="/board/:id?" component={BoardWrapper} />
+                </Switch>
+            </Router>
+
+
     );
 };
 
+// this will give some error. but ignore as of now.
+App.propTypes = {
+    store: PropTypes.object.isRequired
+}
+
 ReactDOM.render(
-    <App />,
+    <App/>,
     document.getElementById('application-container')
 );

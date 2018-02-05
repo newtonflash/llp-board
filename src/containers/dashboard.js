@@ -2,20 +2,22 @@ import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 
-import styles from './llp-board.css';
-import BoardItem from './components/board-item.jsx';
-import AddItem from './components/add-item.jsx';
+import styles from './dashboard.css';
+import BoardItem from './../components/board-item.jsx';
+import AddItem from './../components/add-item.jsx';
 
-export default class LLPBoard extends Component {
+export default class DashBoard extends Component {
     constructor(){
         super();
         this.state = {
             boards : [
                 {
+                    id: 1,
                     title: "ASX",
                     desc : "Dashboard for Australlian security exchange"
                 },
                 {
+                    id:2,
                     title: "European Tour",
                     desc : "This is all about golf in europe."
                 }
@@ -36,6 +38,7 @@ export default class LLPBoard extends Component {
 
     onItemAdd(data) {
         console.log(data)
+        data.id = this.state.boards.length + 1;
         var boards = [...this.state.boards, data];
         this.setState({
             boards: boards
