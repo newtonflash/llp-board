@@ -2,7 +2,7 @@ import React from 'react';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import styles from './board-item.css';
-import  { Redirect } from 'react-router-dom'
+import  { Redirect } from 'react-router-dom';
 
 export default class BoardItem extends React.Component {
     constructor (props){
@@ -21,7 +21,7 @@ export default class BoardItem extends React.Component {
 
     render(){
         if(this.state.redirect){
-            return (<Redirect to="/board"/>);
+            return (<Redirect to={"/board/" + this.props.data.id} />);
         } else {
             return (
                 (<Paper className="boards-item">

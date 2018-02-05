@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
+import FlatButton from 'material-ui/FlatButton';
+import {Link} from 'react-router-dom';
+import style from "./board.css";
 
 import styles from './dashboard.css';
 import BoardItem from './../components/board-item.jsx';
-import AddItem from './../components/add-item.jsx';
+
+import  { Redirect } from 'react-router-dom';
 
 export default class Board extends Component {
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
+        this.boardId = this.props.match.params.id *1;
         this.state = {
             boards : [
                 {
@@ -21,27 +26,7 @@ export default class Board extends Component {
                 }
             ]
         };
-        this.onItemRemove = this.onItemRemove.bind(this);
-        this.onItemUpdate = this.onItemUpdate.bind(this);
-        this.onItemAdd = this.onItemAdd.bind(this);
     }
-
-    onItemRemove (data){
-
-    }
-
-    onItemUpdate (data){
-
-    }
-
-    onItemAdd(data) {
-        console.log(data)
-        var boards = [...this.state.boards, data];
-        this.setState({
-            boards: boards
-        });
-    }
-
 
     render() {
         const getBoards = this.state.boards.map((item, index) => {
@@ -51,9 +36,14 @@ export default class Board extends Component {
         return (
             <React.Fragment>
                 <AppBar
-                    title="Here you go with the board"
-                    iconClassNameRight="muidocs-icon-navigation-expand-more">
-
+                    title={this.state.boards[this.boardId].title}
+                    iconClassNameRight="muidocs-icon-navigation-expand-more"
+                    iconElementRight={
+                        <Link to="/">
+                            <FlatButton className="app-bar-link" label="Back to Dashboard"/>
+                        </Link>
+                    }
+                >
                 </AppBar>
             </React.Fragment>
         );

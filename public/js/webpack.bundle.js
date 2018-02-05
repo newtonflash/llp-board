@@ -5914,7 +5914,7 @@ var BoardItem = function (_React$Component) {
             var _this2 = this;
 
             if (this.state.redirect) {
-                return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/board' });
+                return _react2.default.createElement(_reactRouterDom.Redirect, { to: "/board/" + this.props.data.id });
             } else {
                 return _react2.default.createElement(
                     _Paper2.default,
@@ -7297,11 +7297,11 @@ var DashBoardWrapper = function DashBoardWrapper() {
     );
 };
 
-var BoardWrapper = function BoardWrapper() {
+var BoardWrapper = function BoardWrapper(prop) {
     return _react2.default.createElement(
         _MuiThemeProvider2.default,
         null,
-        _react2.default.createElement(_board2.default, null)
+        _react2.default.createElement(_board2.default, prop)
     );
 };
 
@@ -7314,7 +7314,9 @@ var App = function App() {
             _reactRouterDom.Switch,
             null,
             _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: DashBoardWrapper }),
-            _react2.default.createElement(_reactRouterDom.Route, { path: '/board/:id?', component: BoardWrapper })
+            _react2.default.createElement(_reactRouterDom.Route, { path: '/board/:id?', render: function render(props) {
+                    return _react2.default.createElement(BoardWrapper, props);
+                } })
         )
     );
 };
@@ -36335,6 +36337,16 @@ var _FloatingActionButton = __webpack_require__(74);
 
 var _FloatingActionButton2 = _interopRequireDefault(_FloatingActionButton);
 
+var _FlatButton = __webpack_require__(258);
+
+var _FlatButton2 = _interopRequireDefault(_FlatButton);
+
+var _reactRouterDom = __webpack_require__(150);
+
+var _board = __webpack_require__(334);
+
+var _board2 = _interopRequireDefault(_board);
+
 var _dashboard = __webpack_require__(121);
 
 var _dashboard2 = _interopRequireDefault(_dashboard);
@@ -36343,13 +36355,7 @@ var _boardItem = __webpack_require__(122);
 
 var _boardItem2 = _interopRequireDefault(_boardItem);
 
-var _addItem = __webpack_require__(124);
-
-var _addItem2 = _interopRequireDefault(_addItem);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -36360,11 +36366,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Board = function (_Component) {
     _inherits(Board, _Component);
 
-    function Board() {
+    function Board(props) {
         _classCallCheck(this, Board);
 
-        var _this = _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).call(this));
+        var _this = _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).call(this, props));
 
+        _this.boardId = _this.props.match.params.id * 1;
         _this.state = {
             boards: [{
                 title: "ASX",
@@ -36374,28 +36381,10 @@ var Board = function (_Component) {
                 desc: "This is all about golf in europe."
             }]
         };
-        _this.onItemRemove = _this.onItemRemove.bind(_this);
-        _this.onItemUpdate = _this.onItemUpdate.bind(_this);
-        _this.onItemAdd = _this.onItemAdd.bind(_this);
         return _this;
     }
 
     _createClass(Board, [{
-        key: 'onItemRemove',
-        value: function onItemRemove(data) {}
-    }, {
-        key: 'onItemUpdate',
-        value: function onItemUpdate(data) {}
-    }, {
-        key: 'onItemAdd',
-        value: function onItemAdd(data) {
-            console.log(data);
-            var boards = [].concat(_toConsumableArray(this.state.boards), [data]);
-            this.setState({
-                boards: boards
-            });
-        }
-    }, {
         key: 'render',
         value: function render() {
             var getBoards = this.state.boards.map(function (item, index) {
@@ -36406,8 +36395,14 @@ var Board = function (_Component) {
                 _react2.default.Fragment,
                 null,
                 _react2.default.createElement(_AppBar2.default, {
-                    title: 'Here you go with the board',
-                    iconClassNameRight: 'muidocs-icon-navigation-expand-more' })
+                    title: this.state.boards[this.boardId].title,
+                    iconClassNameRight: 'muidocs-icon-navigation-expand-more',
+                    iconElementRight: _react2.default.createElement(
+                        _reactRouterDom.Link,
+                        { to: '/' },
+                        _react2.default.createElement(_FlatButton2.default, { className: 'app-bar-link', label: 'Back to Dashboard' })
+                    )
+                })
             );
         }
     }]);
@@ -42284,6 +42279,70 @@ var reducer = function reducer() {
 };
 
 exports.default = reducer;
+
+/***/ }),
+/* 334 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(335);
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(76)(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {
+	module.hot.accept("!!../../node_modules/css-loader/index.js!./board.css", function() {
+		var newContent = require("!!../../node_modules/css-loader/index.js!./board.css");
+
+		if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+
+		var locals = (function(a, b) {
+			var key, idx = 0;
+
+			for(key in a) {
+				if(!b || a[key] !== b[key]) return false;
+				idx++;
+			}
+
+			for(key in b) idx--;
+
+			return idx === 0;
+		}(content.locals, newContent.locals));
+
+		if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
+
+		update(newContent);
+	});
+
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 335 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(75)(false);
+// imports
+
+
+// module
+exports.push([module.i, ".app-bar-link{\n    color:white !important;\n}", ""]);
+
+// exports
+
 
 /***/ })
 /******/ ]);

@@ -18,10 +18,10 @@ const DashBoardWrapper = () =>{
     )
 };
 
-const BoardWrapper = () => {
+const BoardWrapper = (prop) => {
     return (
         <MuiThemeProvider>
-            <Board/>
+            <Board {...prop}/>
         </MuiThemeProvider>
     )
 };
@@ -34,7 +34,7 @@ const App = () => {
             <Router>
                 <Switch>
                     <Route exact path="/" component={DashBoardWrapper} />
-                    <Route path="/board/:id?" component={BoardWrapper} />
+                    <Route path="/board/:id?" render={props => (<BoardWrapper {...props} />)} />
                 </Switch>
             </Router>
 
