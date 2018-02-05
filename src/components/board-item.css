@@ -1,0 +1,14 @@
+.boards-item{
+    background-color: lightgoldenrodyellow !important;
+    display: inline-block;
+    margin: 20px;
+    padding:20px;
+    width:200px;
+    min-height: 100px;
+    vertical-align: top;
+}
+
+.boards-item__cta-holder{
+    text-align: center;
+    margin-top:20px;
+}
