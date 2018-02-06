@@ -63,11 +63,38 @@ export default class DashBoard extends Component {
 
     onItemAdd(data) {
         console.log(data)
+
+        let mutation = {
+                mutation: "addBoard"
+            };
+
+        fetch ('/graphql', {
+            method: 'POST',
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            }),
+            body: JSON.stringify({
+                    mutation: mutation,
+                    variables: data
+                })
+            })
+            .then( response => {
+                return response.json();
+            }).then((json) => {
+            this.setState({
+                boards: json.data.boards
+            });
+
+        }).catch( error => {
+            console.log(error);
+        })
+
+/*
         data.id = this.state.boards.length + 1;
         var boards = [...this.state.boards, data];
         this.setState({
             boards: boards
-        });
+        });*/
     }
 
 

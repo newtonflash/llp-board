@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const config = require('./application.config.js');
-const mongoConnection = require('./mongoConnection');
+const mongoConn = require('./mongoConnection');
 
 var graphqlHTTP = require('express-graphql');
 

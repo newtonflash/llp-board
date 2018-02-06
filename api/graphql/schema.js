@@ -1,6 +1,7 @@
 
 const {
     GraphQLObjectType,
+    GraphQLInputObjectType,
     GraphQLNonNull,
     GraphQLSchema,
     GraphQLString,
@@ -12,7 +13,7 @@ const {
 
 
 const resolver = require('./resolvers');
-resolver.getBoard(1);
+
 
 const board = new GraphQLObjectType({
     name:'board',
@@ -33,35 +34,15 @@ const board = new GraphQLObjectType({
     })
 });
 
-const dashboardQuery = new GraphQLObjectType({
-    name: "dashboard",
-    description: "Queries in dashboard",
-    fields : {
-        boards : {
-            type: new GraphQLList(board),
-            description: "Gets list of all boards",
-            resolve :resolver.boards
-
-        },
-        board : {
-            type : board,
-            description: "Get board by id",
-            args: {
-                id: { type: GraphQLInt }
-            },
-            resolve : resolver.getBoard
-        }
-    }
-})
-
 const taskList = new GraphQLObjectType({
-    name:'taskList',
+    name:'tasklist',
     description: 'task list',
     fields : () => ({
         id : {
-            type: (GraphQLString),
-            description: 'id of the board'
+            type: GraphQLInt,
+            description: 'id list'
         },
+
         title : {
             type: GraphQLString,
             description: 'title'
@@ -70,10 +51,71 @@ const taskList = new GraphQLObjectType({
             type: GraphQLString,
             description: 'desc'
         }
-
     })
 });
 
 
+const rootQuery = new GraphQLObjectType({
+    name: "RootQuery",
+    description: "Queries in dashboard",
+    fields : {
+        boards : {
+            type: new GraphQLList(board),
+            description: "Gets list of all boards",
+            resolve :resolver.queries.boards
 
-module.exports = new GraphQLSchema({ query: dashboardQuery});
+        },
+        board : {
+            type : board,
+            description: "Get board by id",
+            args: {
+                id: { type: GraphQLInt }
+            },
+            resolve : resolver.queries.getBoard
+        },
+        list : {
+            type: taskList,
+            description:"Task list"
+        }
+    }
+});
+
+const boardInput = new GraphQLInputObjectType({
+    name:'board',
+    description: 'board',
+    fields : () => ({
+        title : {
+            type: GraphQLString,
+            description: 'title'
+        },
+        desc : {
+            type: GraphQLString,
+            description: 'desc'
+        }
+    })
+})
+
+const mutations = new GraphQLObjectType({
+    name: "dashboardMutations",
+    description: "mutations in dashboard",
+    fields : {
+        addBoard : {
+            type:  board,
+            args : {
+                title: {
+                    type: new GraphQLNonNull(GraphQLString)
+                },
+                desc: {
+                    type: GraphQLString
+                }
+            },
+            description : 'Add a new board',
+            resolve : resolver.mutations.addBoard
+        }
+    }
+});
+
+
+
+
+module.exports = new GraphQLSchema({ query: rootQuery, mutation: mutations});
