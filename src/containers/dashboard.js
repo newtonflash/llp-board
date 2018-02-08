@@ -6,22 +6,18 @@ import styles from './dashboard.css';
 import BoardItem from './../components/board-item.jsx';
 import AddItem from './../components/add-item.jsx';
 
+const Lokka = require('lokka').Lokka;
+const Transport = require('lokka-transport-http').Transport;
+
+const client = new Lokka({
+    transport: new Transport('/graphql')
+});
+
 export default class DashBoard extends Component {
     constructor(){
         super();
         this.state = {
-            boards : [
-                {
-                    id: 1,
-                    title: "ASX",
-                    desc : "Dashboard for Australlian security exchange"
-                },
-                {
-                    id:2,
-                    title: "European Tour",
-                    desc : "This is all about golf in europe."
-                }
-            ]
+            boards : []
         };
         this.onItemRemove = this.onItemRemove.bind(this);
         this.onItemUpdate = this.onItemUpdate.bind(this);
@@ -29,28 +25,23 @@ export default class DashBoard extends Component {
     }
 
     componentDidMount(){
-        let query = {
-                query: "{boards{id,desc,title}}"
-            },
-            variables: {  };
 
-        fetch ('/graphql', {
-            method: 'POST',
-            headers: new Headers({
-                'Content-Type': 'application/json'
-            }),
-            body: JSON.stringify(query)
-        })
-            .then( response => {
-                return response.json();
-            }).then((json) => {
+        const query = (`
+            {
+              boards{id,desc,title}
+            }
+          `);
+
+        client.query(query)
+            .then(resp => {
+                console.log("asdfasdfadf",resp);
                 this.setState({
-                    boards: json.data.boards
-                 });
+                    boards: resp.boards
+                })
+            }).catch(function(e) {
+            console.log(e);
+        });
 
-        }).catch( error => {
-            console.log(error);
-        })
     };
 
     onItemRemove (data){
@@ -62,32 +53,20 @@ export default class DashBoard extends Component {
     }
 
     onItemAdd(data) {
-        console.log(data)
+        const mutationQuery = (`
+            {
+              addItem(title: "${data.title}",desc: "${data.desc}" )
+            }
+          `);
 
-        let mutation = {
-                mutation: "addBoard"
-            };
-
-        fetch ('/graphql', {
-            method: 'POST',
-            headers: new Headers({
-                'Content-Type': 'application/json'
-            }),
-            body: JSON.stringify({
-                    mutation: mutation,
-                    variables: data
-                })
+        client.mutate(mutationQuery)
+            .then(resp => {
+                console.log(resp);
+            }).catch(function(e) {
+                console.log(e);
             })
-            .then( response => {
-                return response.json();
-            }).then((json) => {
-            this.setState({
-                boards: json.data.boards
-            });
 
-        }).catch( error => {
-            console.log(error);
-        })
+
 
 /*
         data.id = this.state.boards.length + 1;

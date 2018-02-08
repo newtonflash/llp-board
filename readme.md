@@ -6,7 +6,13 @@ npm start
 
 in a different tab
 
- npm run webpack
+npm run webpack
+
+## mongodb
+
+ export PATH=${PATH}:/Volumes/DATA/www/databases/mongodb/bin/
+ mongod --dbpath ../../databases/data/
+
 
 
 ### URL to access: http://localhost:1024/

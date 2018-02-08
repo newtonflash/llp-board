@@ -5,18 +5,7 @@ var resolver = {
 
     queries:{
         boards : (parent, args, context, info)=>{
-            return [
-                {
-                    id: 1,
-                    title: "ASX - new",
-                    desc : "Dashboard for Australlian security exchange"
-                },
-                {
-                    id:2,
-                    title: "European Tour",
-                    desc : "This is all about golf in europe."
-                }
-            ];
+            BoardService.addBoard(input);
         },
         getBoard: (parent, args = {id : 0}, context, info) => {
 
@@ -40,9 +29,6 @@ var resolver = {
     mutations: {
         addBoard : (parent, input, context) => {
             BoardService.addBoard(input);
-
-
-
         }
     }
 

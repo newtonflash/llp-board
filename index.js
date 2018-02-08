@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const config = require('./application.config.js');
-const mongoConn = require('./mongoConnection');
+const mongoConn = require('./mongoConnection')();
 
 var graphqlHTTP = require('express-graphql');
 
@@ -14,7 +14,7 @@ let app = express();
 app.use('/graphql', graphqlHTTP({
     schema: schema,
     rootValue: graphQLResolvers,
-    graphiql: true,
+    graphiql: true
 }));
 
 app.use(express.static('public'));

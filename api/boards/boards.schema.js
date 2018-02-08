@@ -1,14 +1,12 @@
 const Mongoose = require('mongoose');
 
+
 const BoardsSchema = Mongoose.Schema({
-    id: {
-        type:Number,
-        index: true,
-        unique:true
-    },
+
     title: {
         type: String,
-        required: true
+        required: true,
+        unique:true
     },
     desc : {
         type: String

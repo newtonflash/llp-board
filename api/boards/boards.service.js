@@ -5,9 +5,13 @@ const addBoard = function(board){
         title: board.title,
         desc: board.desc
     });
-    newBoard.save((err)=>{
-        console.log(err);
-    });
+    let boardResponse = newBoard.save();
+    boardResponse.then((response) => {
+        console.log(response);
+    }).catch(function(e) {
+        console.log(e);
+    })
+
 };
 
 const removeBoard = function(boardID){
@@ -19,7 +23,14 @@ const updateBoard = function(board){
 };
 
 const getBoards = function(){
+    const boardsData = BoardsModel.find({}, (err, data) => {
+        if(err) {
+            return err;
+        }
 
+        return data;
+    });
+    return boardsData;
 };
 
 module.exports = {
