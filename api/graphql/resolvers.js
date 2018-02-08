@@ -5,7 +5,7 @@ var resolver = {
 
     queries:{
         boards : (parent, args, context, info)=>{
-            BoardService.addBoard(input);
+            return BoardService.getBoards();
         },
         getBoard: (parent, args = {id : 0}, context, info) => {
 
@@ -28,7 +28,10 @@ var resolver = {
     },
     mutations: {
         addBoard : (parent, input, context) => {
-            BoardService.addBoard(input);
+            return BoardService.addBoard(input);
+        },
+        deleteBoard : (parent, input, context) => {
+            return BoardService.deleteBoard(input);
         }
     }
 

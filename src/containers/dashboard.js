@@ -6,12 +6,9 @@ import styles from './dashboard.css';
 import BoardItem from './../components/board-item.jsx';
 import AddItem from './../components/add-item.jsx';
 
-const Lokka = require('lokka').Lokka;
-const Transport = require('lokka-transport-http').Transport;
+import GraphQLSerice from './../services/graphql-services';
 
-const client = new Lokka({
-    transport: new Transport('/graphql')
-});
+
 
 export default class DashBoard extends Component {
     constructor(){
@@ -24,28 +21,20 @@ export default class DashBoard extends Component {
         this.onItemAdd = this.onItemAdd.bind(this);
     }
 
-    componentDidMount(){
-
-        const query = (`
-            {
-              boards{id,desc,title}
-            }
-          `);
-
-        client.query(query)
-            .then(resp => {
-                console.log("asdfasdfadf",resp);
-                this.setState({
-                    boards: resp.boards
-                })
-            }).catch(function(e) {
-            console.log(e);
+    getBoardList (){
+        GraphQLSerice.getBoardsList((boardsList) =>{
+            this.setState({
+                boards : boardsList
+            })
         });
+    }
 
+    componentDidMount(){
+        this.getBoardList();
     };
 
     onItemRemove (data){
-
+        console.log(data);
     }
 
     onItemUpdate (data){
@@ -53,33 +42,15 @@ export default class DashBoard extends Component {
     }
 
     onItemAdd(data) {
-        const mutationQuery = (`
-            {
-              addItem(title: "${data.title}",desc: "${data.desc}" )
-            }
-          `);
-
-        client.mutate(mutationQuery)
-            .then(resp => {
-                console.log(resp);
-            }).catch(function(e) {
-                console.log(e);
-            })
-
-
-
-/*
-        data.id = this.state.boards.length + 1;
-        var boards = [...this.state.boards, data];
-        this.setState({
-            boards: boards
-        });*/
+        GraphQLSerice.addNewBoard(data, (res)=>{
+            this.getBoardList();
+        });
     }
 
 
     render() {
         const getBoards = this.state.boards.map((item, index) => {
-                                return <BoardItem key={index} data={item} index={index}></BoardItem>;
+                                return <BoardItem key={index} data={item} index={index} onItemRemove={this.onItemRemove}></BoardItem>;
                             });
 
         return (

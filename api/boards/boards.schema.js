@@ -5,12 +5,12 @@ const BoardsSchema = Mongoose.Schema({
 
     title: {
         type: String,
-        required: true,
-        unique:true
+        required: true
     },
     desc : {
         type: String
     }
+
 }, {collection:'boards'});
 
 const BoardsModel = Mongoose.model('BoardsModel', BoardsSchema);

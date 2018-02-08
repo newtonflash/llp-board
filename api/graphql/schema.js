@@ -20,7 +20,7 @@ const board = new GraphQLObjectType({
     description: 'board',
     fields : () => ({
         id : {
-            type: GraphQLInt,
+            type: GraphQLString,
             description: 'id of the board'
         },
         title : {
@@ -55,30 +55,6 @@ const taskList = new GraphQLObjectType({
 });
 
 
-const rootQuery = new GraphQLObjectType({
-    name: "RootQuery",
-    description: "Queries in dashboard",
-    fields : {
-        boards : {
-            type: new GraphQLList(board),
-            description: "Gets list of all boards",
-            resolve :resolver.queries.boards
-
-        },
-        board : {
-            type : board,
-            description: "Get board by id",
-            args: {
-                id: { type: GraphQLInt }
-            },
-            resolve : resolver.queries.getBoard
-        },
-        list : {
-            type: taskList,
-            description:"Task list"
-        }
-    }
-});
 
 const boardInput = new GraphQLInputObjectType({
     name:'board',
@@ -111,11 +87,45 @@ const mutations = new GraphQLObjectType({
             },
             description : 'Add a new board',
             resolve : resolver.mutations.addBoard
+        },
+        deleteBoard : {
+            type : board,
+            args : {
+                id: {
+                    type: GraphQLString
+                }
+            },
+            description : 'Delete a board',
+            resolve : resolver.mutations.deleteBoard
         }
     }
 });
 
 
+const rootQuery = new GraphQLObjectType({
+    name: "RootQuery",
+    description: "Queries in dashboard",
+    fields : {
+        boards : {
+            type: new GraphQLList(board),
+            description: "Gets list of all boards",
+            resolve :resolver.queries.boards
+
+        },
+        board : {
+            type : board,
+            description: "Get board by id",
+            args: {
+                id: { type: GraphQLInt }
+            },
+            resolve : resolver.queries.getBoard
+        },
+        list : {
+            type: taskList,
+            description:"Task list"
+        }
+    }
+});
 
 
 module.exports = new GraphQLSchema({ query: rootQuery, mutation: mutations});
