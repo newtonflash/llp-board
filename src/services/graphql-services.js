@@ -43,7 +43,7 @@ export default class GraphQLService {
     static deleteBoard(board, callback){
         const mutationQuery = (`
             {
-              deleteBoard(id: "${board}" )
+              deleteBoard(id: "${board}" ){desc}
             }
           `);
 

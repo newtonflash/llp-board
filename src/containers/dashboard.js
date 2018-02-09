@@ -6,7 +6,7 @@ import styles from './dashboard.css';
 import BoardItem from './../components/board-item.jsx';
 import AddItem from './../components/add-item.jsx';
 
-import GraphQLSerice from './../services/graphql-services';
+import GraphQLService from './../services/graphql-services';
 
 
 
@@ -22,7 +22,7 @@ export default class DashBoard extends Component {
     }
 
     getBoardList (){
-        GraphQLSerice.getBoardsList((boardsList) =>{
+        GraphQLService.getBoardsList((boardsList) =>{
             this.setState({
                 boards : boardsList
             })
@@ -34,7 +34,9 @@ export default class DashBoard extends Component {
     };
 
     onItemRemove (data){
-        console.log(data);
+        GraphQLService.deleteBoard(data, (res) => {
+            this.getBoardList();
+        })
     }
 
     onItemUpdate (data){
@@ -42,7 +44,7 @@ export default class DashBoard extends Component {
     }
 
     onItemAdd(data) {
-        GraphQLSerice.addNewBoard(data, (res)=>{
+        GraphQLService.addNewBoard(data, (res)=>{
             this.getBoardList();
         });
     }

@@ -13,6 +13,7 @@ import  { Redirect } from 'react-router-dom';
 export default class Board extends Component {
     constructor(props){
         super(props);
+        console.log(this.props.match.params);
         this.boardId = this.props.match.params.id *1;
         this.state = {
             boards : [
@@ -28,11 +29,6 @@ export default class Board extends Component {
         };
     }
 
-
-
-
-
-
     render() {
         const getBoards = this.state.boards.map((item, index) => {
                                 return <BoardItem key={index} data={item} index={index}></BoardItem>;
@@ -41,7 +37,7 @@ export default class Board extends Component {
         return (
             <React.Fragment>
                 <AppBar
-                    title={this.state.boards[this.boardId].title}
+                    title="asdfasdf"
                     iconClassNameRight="muidocs-icon-navigation-expand-more"
                     iconElementRight={
                         <Link to="/">

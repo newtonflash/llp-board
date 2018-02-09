@@ -11671,9 +11671,9 @@ var _IconButton = __webpack_require__(262);
 
 var _IconButton2 = _interopRequireDefault(_IconButton);
 
-var _moreHoriz = __webpack_require__(471);
+var _moreVert = __webpack_require__(472);
 
-var _moreHoriz2 = _interopRequireDefault(_moreHoriz);
+var _moreVert2 = _interopRequireDefault(_moreVert);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11701,7 +11701,6 @@ var BoardItem = function (_React$Component) {
     _createClass(BoardItem, [{
         key: 'onView',
         value: function onView() {
-            console.log(this);
             this.setState({
                 redirect: true
             });
@@ -11723,16 +11722,6 @@ var BoardItem = function (_React$Component) {
                     _Paper2.default,
                     { className: 'boards-item' },
                     _react2.default.createElement(
-                        'h2',
-                        null,
-                        this.props.data.title
-                    ),
-                    _react2.default.createElement(
-                        'p',
-                        null,
-                        this.props.data.desc
-                    ),
-                    _react2.default.createElement(
                         'div',
                         { className: 'boards-item__cta-holder' },
                         _react2.default.createElement(
@@ -11741,7 +11730,7 @@ var BoardItem = function (_React$Component) {
                                 iconButtonElement: _react2.default.createElement(
                                     _IconButton2.default,
                                     null,
-                                    _react2.default.createElement(_moreHoriz2.default, null)
+                                    _react2.default.createElement(_moreVert2.default, null)
                                 ),
                                 anchorOrigin: { horizontal: 'left', vertical: 'top' },
                                 targetOrigin: { horizontal: 'left', vertical: 'top' }
@@ -11754,6 +11743,18 @@ var BoardItem = function (_React$Component) {
                                     return _this2.onView();
                                 } })
                         )
+                    ),
+                    _react2.default.createElement(
+                        'h2',
+                        { onClick: function onClick(evt) {
+                                return _this2.onView();
+                            } },
+                        this.props.data.title
+                    ),
+                    _react2.default.createElement(
+                        'p',
+                        null,
+                        this.props.data.desc
                     )
                 );
             }
@@ -36374,7 +36375,11 @@ var DashBoard = function (_Component) {
     }, {
         key: 'onItemRemove',
         value: function onItemRemove(data) {
-            console.log(data);
+            var _this3 = this;
+
+            _graphqlServices2.default.deleteBoard(data, function (res) {
+                _this3.getBoardList();
+            });
         }
     }, {
         key: 'onItemUpdate',
@@ -36382,19 +36387,19 @@ var DashBoard = function (_Component) {
     }, {
         key: 'onItemAdd',
         value: function onItemAdd(data) {
-            var _this3 = this;
+            var _this4 = this;
 
             _graphqlServices2.default.addNewBoard(data, function (res) {
-                _this3.getBoardList();
+                _this4.getBoardList();
             });
         }
     }, {
         key: 'render',
         value: function render() {
-            var _this4 = this;
+            var _this5 = this;
 
             var getBoards = this.state.boards.map(function (item, index) {
-                return _react2.default.createElement(_boardItem2.default, { key: index, data: item, index: index, onItemRemove: _this4.onItemRemove });
+                return _react2.default.createElement(_boardItem2.default, { key: index, data: item, index: index, onItemRemove: _this5.onItemRemove });
             });
 
             return _react2.default.createElement(
@@ -41188,7 +41193,7 @@ exports = module.exports = __webpack_require__(62)(false);
 
 
 // module
-exports.push([module.i, ".boards-item{\n    background-color: lightgoldenrodyellow !important;\n    display: inline-block;\n    margin: 20px;\n    padding:20px 20px 0;\n    width:260px;\n    min-height: 100px;\n    vertical-align: top;\n}\n\n.boards-item__cta-holder{\n    text-align:right;\n    margin-top:20px;\n    margin-right:-20px;\n}\n\n.board-item__action-btn{\n    display: inline-block;\n    margin: 10px 10px 0;\n}", ""]);
+exports.push([module.i, ".boards-item{\n    background-color: lightgoldenrodyellow !important;\n    display: inline-block;\n    margin: 20px;\n    padding:20px;\n    width:260px;\n    min-height: 100px;\n    vertical-align: top;\n    position: relative;\n}\n\n.boards-item__cta-holder{\n    margin-top:-20px;\n\n    position: absolute;\n    right:0;\n}\n\n.board-item__action-btn{\n    display: inline-block;\n    margin: 10px 10px 0;\n}", ""]);
 
 // exports
 
@@ -58162,6 +58167,7 @@ var Board = function (_Component) {
 
         var _this = _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).call(this, props));
 
+        console.log(_this.props.match.params);
         _this.boardId = _this.props.match.params.id * 1;
         _this.state = {
             boards: [{
@@ -58186,7 +58192,7 @@ var Board = function (_Component) {
                 _react2.default.Fragment,
                 null,
                 _react2.default.createElement(_AppBar2.default, {
-                    title: this.state.boards[this.boardId].title,
+                    title: 'asdfasdf',
                     iconClassNameRight: 'muidocs-icon-navigation-expand-more',
                     iconElementRight: _react2.default.createElement(
                         _reactRouterDom.Link,
@@ -64159,7 +64165,7 @@ var GraphQLService = function () {
     }, {
         key: 'deleteBoard',
         value: function deleteBoard(board, callback) {
-            var mutationQuery = '\n            {\n              deleteBoard(id: "' + board + '" )\n            }\n          ';
+            var mutationQuery = '\n            {\n              deleteBoard(id: "' + board + '" ){desc}\n            }\n          ';
 
             client.mutate(mutationQuery).then(function (resp) {
                 callback(resp);
@@ -68272,7 +68278,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _MenuItem2.default;
 
 /***/ }),
-/* 471 */
+/* 471 */,
+/* 472 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -68296,18 +68303,18 @@ var _SvgIcon2 = _interopRequireDefault(_SvgIcon);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var NavigationMoreHoriz = function NavigationMoreHoriz(props) {
+var NavigationMoreVert = function NavigationMoreVert(props) {
   return _react2.default.createElement(
     _SvgIcon2.default,
     props,
-    _react2.default.createElement('path', { d: 'M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z' })
+    _react2.default.createElement('path', { d: 'M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z' })
   );
 };
-NavigationMoreHoriz = (0, _pure2.default)(NavigationMoreHoriz);
-NavigationMoreHoriz.displayName = 'NavigationMoreHoriz';
-NavigationMoreHoriz.muiName = 'SvgIcon';
+NavigationMoreVert = (0, _pure2.default)(NavigationMoreVert);
+NavigationMoreVert.displayName = 'NavigationMoreVert';
+NavigationMoreVert.muiName = 'SvgIcon';
 
-exports.default = NavigationMoreHoriz;
+exports.default = NavigationMoreVert;
 
 /***/ })
 /******/ ]);
