@@ -11675,6 +11675,22 @@ var _moreVert = __webpack_require__(472);
 
 var _moreVert2 = _interopRequireDefault(_moreVert);
 
+var _Dialog = __webpack_require__(291);
+
+var _Dialog2 = _interopRequireDefault(_Dialog);
+
+var _FlatButton = __webpack_require__(154);
+
+var _FlatButton2 = _interopRequireDefault(_FlatButton);
+
+var _TextField = __webpack_require__(302);
+
+var _TextField2 = _interopRequireDefault(_TextField);
+
+var _Divider = __webpack_require__(308);
+
+var _Divider2 = _interopRequireDefault(_Divider);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -11692,8 +11708,16 @@ var BoardItem = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (BoardItem.__proto__ || Object.getPrototypeOf(BoardItem)).call(this, props));
 
         _this.state = {
-            redirect: false
+            redirect: false,
+            isEditDialogOpen: false,
+            editableTitle: "",
+            editableDesc: ""
+
         };
+
+        _this.onTitleChange = _this.onTitleChange.bind(_this);
+        _this.onDescChange = _this.onDescChange.bind(_this);
+        _this.closeEditDialog = _this.closeEditDialog.bind(_this);
 
         return _this;
     }
@@ -11706,9 +11730,58 @@ var BoardItem = function (_React$Component) {
             });
         }
     }, {
+        key: 'closeEditDialog',
+        value: function closeEditDialog() {
+            this.setState({
+                isEditDialogOpen: false
+            });
+        }
+    }, {
+        key: 'openEditDialog',
+        value: function openEditDialog() {
+            this.setState({
+                isEditDialogOpen: true,
+                editableTitle: this.props.data.title,
+                editableDesc: this.props.data.desc
+
+            });
+        }
+    }, {
         key: 'onItemRemove',
         value: function onItemRemove() {
             this.props.onItemRemove(this.props.data.id);
+        }
+    }, {
+        key: 'onTitleChange',
+        value: function onTitleChange(event) {
+            var _title = event.target.value;
+
+            this.setState({
+                editableTitle: _title
+            });
+            console.log(_title);
+        }
+    }, {
+        key: 'onDescChange',
+        value: function onDescChange(event) {
+            var _desc = event.target.value;
+            this.setState({
+                editableDesc: _desc
+            });
+        }
+    }, {
+        key: 'onUpdateSubmit',
+        value: function onUpdateSubmit(evt) {
+            var boardData = {
+                id: this.props.data.id,
+                title: this.state.editableTitle,
+                desc: this.state.editableDesc
+            };
+
+            this.props.onUpdateboard(boardData);
+            this.setState({
+                isEditDialogOpen: false
+            });
         }
     }, {
         key: 'render',
@@ -11735,7 +11808,9 @@ var BoardItem = function (_React$Component) {
                                 anchorOrigin: { horizontal: 'left', vertical: 'top' },
                                 targetOrigin: { horizontal: 'left', vertical: 'top' }
                             },
-                            _react2.default.createElement(_MenuItem2.default, { primaryText: 'Edit', 'data-id': this.props.index }),
+                            _react2.default.createElement(_MenuItem2.default, { primaryText: 'Edit', 'data-id': this.props.index, onClick: function onClick(evt) {
+                                    return _this2.openEditDialog();
+                                } }),
                             _react2.default.createElement(_MenuItem2.default, { primaryText: 'Delete', onClick: function onClick(evt) {
                                     return _this2.onItemRemove();
                                 } }),
@@ -11755,6 +11830,46 @@ var BoardItem = function (_React$Component) {
                         'p',
                         null,
                         this.props.data.desc
+                    ),
+                    _react2.default.createElement(
+                        _Dialog2.default,
+                        { title: 'Update Board',
+                            modal: false,
+                            open: this.state.isEditDialogOpen,
+                            onRequestClose: this.closeEditDialog
+                        },
+                        _react2.default.createElement(
+                            'div',
+                            null,
+                            _react2.default.createElement(_TextField2.default, {
+                                hintText: 'Enter project name',
+                                value: this.state.editableTitle,
+                                onChange: function onChange(evt) {
+                                    _this2.onTitleChange(evt);
+                                } }),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement(_TextField2.default, {
+                                multiLine: true,
+                                rows: 2,
+                                rowsMax: 4,
+                                fullWidth: true,
+                                hintText: 'Put some description',
+                                value: this.state.editableDesc,
+                                onChange: function onChange(evt) {
+                                    _this2.onDescChange(evt);
+                                } }),
+                            _react2.default.createElement('br', null),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'form__cta-holder' },
+                                _react2.default.createElement(_RaisedButton2.default, {
+                                    label: 'Update Board',
+                                    primary: true,
+                                    onClick: function onClick(evt) {
+                                        _this2.onUpdateSubmit(evt);
+                                    } })
+                            )
+                        )
                     )
                 );
             }
@@ -36351,8 +36466,8 @@ var DashBoard = function (_Component) {
             boards: []
         };
         _this.onItemRemove = _this.onItemRemove.bind(_this);
-        _this.onItemUpdate = _this.onItemUpdate.bind(_this);
         _this.onItemAdd = _this.onItemAdd.bind(_this);
+        _this.onBoardUpdate = _this.onBoardUpdate.bind(_this);
         return _this;
     }
 
@@ -36382,9 +36497,6 @@ var DashBoard = function (_Component) {
             });
         }
     }, {
-        key: 'onItemUpdate',
-        value: function onItemUpdate(data) {}
-    }, {
         key: 'onItemAdd',
         value: function onItemAdd(data) {
             var _this4 = this;
@@ -36394,12 +36506,28 @@ var DashBoard = function (_Component) {
             });
         }
     }, {
-        key: 'render',
-        value: function render() {
+        key: 'onBoardUpdate',
+        value: function onBoardUpdate(data) {
             var _this5 = this;
 
+            _graphqlServices2.default.updateBoard(data, function (res) {
+                console.log(data);
+                _this5.getBoardList();
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this6 = this;
+
             var getBoards = this.state.boards.map(function (item, index) {
-                return _react2.default.createElement(_boardItem2.default, { key: index, data: item, index: index, onItemRemove: _this5.onItemRemove });
+                return _react2.default.createElement(_boardItem2.default, {
+                    key: index,
+                    data: item,
+                    index: index,
+                    onItemRemove: _this6.onItemRemove,
+                    onUpdateboard: _this6.onBoardUpdate
+                });
             });
 
             return _react2.default.createElement(
@@ -64167,6 +64295,16 @@ var GraphQLService = function () {
         value: function deleteBoard(board, callback) {
             var mutationQuery = '\n            {\n              deleteBoard(id: "' + board + '" ){desc}\n            }\n          ';
 
+            client.mutate(mutationQuery).then(function (resp) {
+                callback(resp);
+            }).catch(function (e) {
+                console.log(e);
+            });
+        }
+    }, {
+        key: 'updateBoard',
+        value: function updateBoard(board, callback) {
+            var mutationQuery = '\n            {\n              updateBoard(id: "' + board.id + '", title: "' + board.title + '", desc: "' + board.desc + '" ){title, desc, id}\n            }\n          ';
             client.mutate(mutationQuery).then(function (resp) {
                 callback(resp);
             }).catch(function (e) {

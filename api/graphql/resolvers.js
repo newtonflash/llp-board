@@ -32,6 +32,10 @@ var resolver = {
         },
         deleteBoard : (parent, input, context) => {
             return BoardService.deleteBoard(input);
+        },
+
+        updateBoard : (parent, input, context) => {
+            return BoardService.updateBoard(input);
         }
     }
 

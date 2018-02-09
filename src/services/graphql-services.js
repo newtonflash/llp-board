@@ -54,4 +54,18 @@ export default class GraphQLService {
             console.log(e);
         })
     }
+
+    static updateBoard(board, callback){
+        const mutationQuery = (`
+            {
+              updateBoard(id: "${board.id}", title: "${board.title}", desc: "${board.desc}" ){title, desc, id}
+            }
+          `);
+        client.mutate(mutationQuery)
+            .then(resp => {
+                callback(resp);
+            }).catch(function(e) {
+            console.log(e);
+        })
+    }
 }

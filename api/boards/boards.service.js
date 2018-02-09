@@ -23,7 +23,19 @@ const deleteBoard = function(boardID){
 };
 
 const updateBoard = function(board){
-    console.log(board);
+    BoardsModel.findById(board.id + "", (err, model) => {
+        if(err) return err;
+
+        model.set({
+            desc: board.desc,
+            title: board.title
+        });
+
+        model.save((err, updateData) => {
+            if(err) return err;
+            return updateData;
+        });
+    });
 };
 
 const getBoards = function(){

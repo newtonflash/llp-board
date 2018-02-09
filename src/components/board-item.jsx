@@ -8,12 +8,25 @@ import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+import TextField from 'material-ui/TextField';
+import Divider from 'material-ui/Divider';
+
 export default class BoardItem extends React.Component {
     constructor (props){
         super(props);
         this.state = {
-            redirect:false
-        }
+            redirect            : false,
+            isEditDialogOpen    : false,
+            editableTitle       : "",
+            editableDesc        : ""
+
+        };
+
+        this.onTitleChange = this.onTitleChange.bind(this);
+        this.onDescChange = this.onDescChange.bind(this);
+        this.closeEditDialog = this.closeEditDialog.bind(this);
 
     }
     onView(){
@@ -22,8 +35,52 @@ export default class BoardItem extends React.Component {
         })
     }
 
+    closeEditDialog(){
+        this.setState({
+            isEditDialogOpen: false
+        });
+    }
+
+    openEditDialog(){
+        this.setState({
+            isEditDialogOpen    : true,
+            editableTitle       : this.props.data.title,
+            editableDesc        : this.props.data.desc
+
+        })
+    }
+
     onItemRemove () {
         this.props.onItemRemove(this.props.data.id);
+    }
+
+    onTitleChange(event) {
+        let _title = event.target.value;
+
+        this.setState({
+            editableTitle : _title
+        });
+        console.log(_title);
+    }
+
+    onDescChange(event) {
+        let _desc = event.target.value;
+        this.setState({
+            editableDesc : _desc
+        });
+    }
+
+    onUpdateSubmit(evt) {
+        let boardData = {
+            id : this.props.data.id,
+            title: this.state.editableTitle,
+            desc: this.state.editableDesc
+        };
+
+        this.props.onUpdateboard(boardData);
+        this.setState({
+            isEditDialogOpen    : false
+        })
     }
 
     render(){
@@ -38,7 +95,7 @@ export default class BoardItem extends React.Component {
                             anchorOrigin={{horizontal: 'left', vertical: 'top'}}
                             targetOrigin={{horizontal: 'left', vertical: 'top'}}
                         >
-                            <MenuItem primaryText="Edit" data-id={this.props.index}  />
+                            <MenuItem primaryText="Edit" data-id={this.props.index} onClick={evt => this.openEditDialog()}  />
                             <MenuItem primaryText="Delete" onClick={evt => this.onItemRemove()} />
                             <MenuItem primaryText="View" onClick={evt =>this.onView()}/>
                         </IconMenu>
@@ -46,6 +103,41 @@ export default class BoardItem extends React.Component {
                     <h2 onClick={evt=>this.onView()}>{this.props.data.title}</h2>
                     <p>{this.props.data.desc}</p>
 
+                    <Dialog title="Update Board"
+                            modal={false}
+                            open={this.state.isEditDialogOpen}
+                            onRequestClose={this.closeEditDialog}
+                    >
+                        <div>
+
+                            <TextField
+                                hintText="Enter project name"
+                                value={this.state.editableTitle}
+                                onChange={(evt) => {this.onTitleChange(evt)}}/>
+
+                            <br/>
+
+                            <TextField
+                                multiLine={true}
+                                rows={2}
+                                rowsMax={4}
+                                fullWidth={true}
+                                hintText="Put some description"
+                                value={this.state.editableDesc}
+                                onChange={(evt) => {this.onDescChange(evt)}}/>
+                            <br/>
+
+
+                            <div className="form__cta-holder">
+                                <RaisedButton
+                                    label="Update Board"
+                                    primary={true}
+                                    onClick={(evt) =>{this.onUpdateSubmit(evt)}}/>
+                            </div>
+
+                        </div>
+
+                    </Dialog>
 
 
                 </Paper>)

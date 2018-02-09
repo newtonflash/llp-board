@@ -97,6 +97,22 @@ const mutations = new GraphQLObjectType({
             },
             description : 'Delete a board',
             resolve : resolver.mutations.deleteBoard
+        },
+        updateBoard : {
+            type : board,
+            args : {
+                id: {
+                    type: GraphQLString
+                },
+                title: {
+                    type : GraphQLString
+                },
+                desc : {
+                    type : GraphQLString
+                }
+            },
+            description : 'Update a board',
+            resolve : resolver.mutations.updateBoard
         }
     }
 });

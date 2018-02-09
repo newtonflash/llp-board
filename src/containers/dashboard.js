@@ -10,6 +10,8 @@ import GraphQLService from './../services/graphql-services';
 
 
 
+
+
 export default class DashBoard extends Component {
     constructor(){
         super();
@@ -17,8 +19,8 @@ export default class DashBoard extends Component {
             boards : []
         };
         this.onItemRemove = this.onItemRemove.bind(this);
-        this.onItemUpdate = this.onItemUpdate.bind(this);
         this.onItemAdd = this.onItemAdd.bind(this);
+        this.onBoardUpdate = this.onBoardUpdate.bind(this);
     }
 
     getBoardList (){
@@ -39,12 +41,15 @@ export default class DashBoard extends Component {
         })
     }
 
-    onItemUpdate (data){
-
-    }
-
     onItemAdd(data) {
         GraphQLService.addNewBoard(data, (res)=>{
+            this.getBoardList();
+        });
+    }
+
+    onBoardUpdate(data){
+        GraphQLService.updateBoard(data, (res)=>{
+            console.log(data);
             this.getBoardList();
         });
     }
@@ -52,7 +57,13 @@ export default class DashBoard extends Component {
 
     render() {
         const getBoards = this.state.boards.map((item, index) => {
-                                return <BoardItem key={index} data={item} index={index} onItemRemove={this.onItemRemove}></BoardItem>;
+                                return <BoardItem
+                                    key={index}
+                                    data={item}
+                                    index={index}
+                                    onItemRemove={this.onItemRemove}
+                                    onUpdateboard={this.onBoardUpdate}
+                                ></BoardItem>;
                             });
 
         return (
