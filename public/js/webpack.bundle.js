@@ -38557,9 +38557,9 @@ var _boardItem = __webpack_require__(156);
 
 var _boardItem2 = _interopRequireDefault(_boardItem);
 
-var _addItem = __webpack_require__(325);
+var _addBoardItem = __webpack_require__(480);
 
-var _addItem2 = _interopRequireDefault(_addItem);
+var _addBoardItem2 = _interopRequireDefault(_addBoardItem);
 
 var _graphqlServices = __webpack_require__(329);
 
@@ -38654,7 +38654,7 @@ var DashBoard = function (_Component) {
                     'div',
                     { className: 'board-list' },
                     this.getBoards(),
-                    _react2.default.createElement(_addItem2.default, { onItemAdd: this.onItemAdd })
+                    _react2.default.createElement(_addBoardItem2.default, { onItemAdd: this.onItemAdd })
                 )
             );
         }
@@ -48425,174 +48425,7 @@ exports.default = Divider;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 325 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _Dialog = __webpack_require__(163);
-
-var _Dialog2 = _interopRequireDefault(_Dialog);
-
-var _FlatButton = __webpack_require__(100);
-
-var _FlatButton2 = _interopRequireDefault(_FlatButton);
-
-var _FloatingActionButton = __webpack_require__(98);
-
-var _FloatingActionButton2 = _interopRequireDefault(_FloatingActionButton);
-
-var _addItem = __webpack_require__(326);
-
-var _addItem2 = _interopRequireDefault(_addItem);
-
-var _add = __webpack_require__(328);
-
-var _add2 = _interopRequireDefault(_add);
-
-var _TextField = __webpack_require__(164);
-
-var _TextField2 = _interopRequireDefault(_TextField);
-
-var _RaisedButton = __webpack_require__(157);
-
-var _RaisedButton2 = _interopRequireDefault(_RaisedButton);
-
-var _Divider = __webpack_require__(165);
-
-var _Divider2 = _interopRequireDefault(_Divider);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var AddItem = function (_React$Component) {
-    _inherits(AddItem, _React$Component);
-
-    function AddItem(props) {
-        _classCallCheck(this, AddItem);
-
-        var _this = _possibleConstructorReturn(this, (AddItem.__proto__ || Object.getPrototypeOf(AddItem)).call(this, props));
-
-        _this.state = {
-            open: false,
-            boardName: "",
-            desc: ""
-        };
-        _this.handleOpen = _this.handleOpen.bind(_this);
-        _this.handleClose = _this.handleClose.bind(_this);
-        return _this;
-    }
-
-    _createClass(AddItem, [{
-        key: 'onSubmit',
-        value: function onSubmit() {
-            this.props.onItemAdd({
-                title: this.state.title,
-                desc: this.state.desc
-            });
-            this.setState({ open: false });
-        }
-    }, {
-        key: 'onNameChange',
-        value: function onNameChange(event) {
-            var _name = event.target.value;
-            this.setState({
-                title: _name
-            });
-        }
-    }, {
-        key: 'onDescriptionChange',
-        value: function onDescriptionChange(event) {
-            var _desc = event.target.value;
-            this.setState({
-                desc: _desc
-            });
-        }
-    }, {
-        key: 'handleOpen',
-        value: function handleOpen() {
-            this.setState({ open: true, title: "", desc: "" });
-        }
-    }, {
-        key: 'handleClose',
-        value: function handleClose() {
-            this.setState({ open: false });
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            var _this2 = this;
-
-            return _react2.default.createElement(
-                _react2.default.Fragment,
-                null,
-                _react2.default.createElement(
-                    _FloatingActionButton2.default,
-                    { className: 'board-list__add-new-btn', onClick: this.handleOpen },
-                    _react2.default.createElement(_add2.default, null)
-                ),
-                _react2.default.createElement(
-                    _Dialog2.default,
-                    { title: 'Add a board',
-                        modal: false,
-                        open: this.state.open,
-                        onRequestClose: this.handleClose
-                    },
-                    _react2.default.createElement(
-                        'div',
-                        null,
-                        _react2.default.createElement(_TextField2.default, {
-                            hintText: 'Enter project name', value: this.state.title, onChange: function onChange(evt) {
-                                _this2.onNameChange(evt);
-                            } }),
-                        _react2.default.createElement('br', null),
-                        _react2.default.createElement(_TextField2.default, {
-                            multiLine: true,
-                            rows: 2,
-                            rowsMax: 4,
-                            fullWidth: true,
-                            hintText: 'Put some description', value: this.state.desc, onChange: function onChange(evt) {
-                                _this2.onDescriptionChange(evt);
-                            } }),
-                        _react2.default.createElement('br', null),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'form__cta-holder' },
-                            _react2.default.createElement(_RaisedButton2.default, {
-                                label: 'Create Board',
-                                primary: true,
-                                onClick: function onClick(evt) {
-                                    _this2.onSubmit(evt);
-                                } })
-                        )
-                    )
-                )
-            );
-        }
-    }]);
-
-    return AddItem;
-}(_react2.default.Component);
-
-exports.default = AddItem;
-
-/***/ }),
+/* 325 */,
 /* 326 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -62510,6 +62343,16 @@ var _boardItem = __webpack_require__(156);
 
 var _boardItem2 = _interopRequireDefault(_boardItem);
 
+var _reactRedux = __webpack_require__(447);
+
+var _taskList = __webpack_require__(477);
+
+var _taskList2 = _interopRequireDefault(_taskList);
+
+var _addTaskList = __webpack_require__(481);
+
+var _addTaskList2 = _interopRequireDefault(_addTaskList);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -62528,37 +62371,41 @@ var Board = function (_Component) {
 
         console.log(_this.props.match.params);
         _this.boardId = _this.props.match.params.id * 1;
-        _this.state = {
-            boards: [{
-                title: "ASX",
-                desc: "Dashboard for Australlian security exchange"
-            }, {
-                title: "European Tour",
-                desc: "This is all about golf in europe."
-            }]
-        };
         return _this;
     }
 
     _createClass(Board, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {}
+    }, {
+        key: 'getAllLists',
+        value: function getAllLists(list) {
+            if (list[0]) {
+                return list.map(function (item, index) {
+                    return _react2.default.createElement(_taskList2.default, { data: item, key: index });
+                });
+            }
+        }
+    }, {
+        key: 'onTaskListAdd',
+        value: function onTaskListAdd(data) {}
+    }, {
         key: 'render',
         value: function render() {
-            var getBoards = this.state.boards.map(function (item, index) {
-                return _react2.default.createElement(_boardItem2.default, { key: index, data: item, index: index });
-            });
-
             return _react2.default.createElement(
                 _react2.default.Fragment,
                 null,
                 _react2.default.createElement(_AppBar2.default, {
                     title: 'asdfasdf',
-                    iconClassNameRight: 'muidocs-icon-navigation-expand-more',
+
                     iconElementRight: _react2.default.createElement(
                         _reactRouterDom.Link,
                         { to: '/' },
                         _react2.default.createElement(_FlatButton2.default, { className: 'app-bar-link', label: 'Back to Dashboard' })
                     )
-                })
+                }),
+                this.getAllLists(this.props.board.taskList || []),
+                _react2.default.createElement(_addTaskList2.default, { onItemAdd: this.onTaskListAdd })
             );
         }
     }]);
@@ -62566,7 +62413,19 @@ var Board = function (_Component) {
     return Board;
 }(_react.Component);
 
-exports.default = Board;
+var stateToPropMapping = function stateToPropMapping(state) {
+    return {
+        board: Board
+    };
+};
+
+var dispatchToPropsMapping = function dispatchToPropsMapping(dispatch) {
+    return {
+        dispatch: dispatch
+    };
+};
+
+exports.default = (0, _reactRedux.connect)(stateToPropMapping, dispatchToPropsMapping)(Board);
 
 /***/ }),
 /* 410 */
@@ -68475,7 +68334,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var CombinedReducers = (0, _redux.combineReducers)({
     Dashboard: _dashboardReducers2.default,
-    BoardReducers: _boardReducers2.default
+    Board: _boardReducers2.default
 });
 
 exports.default = CombinedReducers;
@@ -68491,7 +68350,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var initialState = {
-    currentBoard: {}
+    title: "",
+    taskList: []
 };
 var BoardReducers = function BoardReducers() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
@@ -68680,6 +68540,657 @@ var DashboardActions = {
 };
 
 exports.default = DashboardActions;
+
+/***/ }),
+/* 477 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Dialog = __webpack_require__(163);
+
+var _Dialog2 = _interopRequireDefault(_Dialog);
+
+var _FlatButton = __webpack_require__(100);
+
+var _FlatButton2 = _interopRequireDefault(_FlatButton);
+
+var _FloatingActionButton = __webpack_require__(98);
+
+var _FloatingActionButton2 = _interopRequireDefault(_FloatingActionButton);
+
+var _addItem = __webpack_require__(326);
+
+var _addItem2 = _interopRequireDefault(_addItem);
+
+var _add = __webpack_require__(328);
+
+var _add2 = _interopRequireDefault(_add);
+
+var _TextField = __webpack_require__(164);
+
+var _TextField2 = _interopRequireDefault(_TextField);
+
+var _RaisedButton = __webpack_require__(157);
+
+var _RaisedButton2 = _interopRequireDefault(_RaisedButton);
+
+var _List = __webpack_require__(478);
+
+var _Subheader = __webpack_require__(301);
+
+var _Subheader2 = _interopRequireDefault(_Subheader);
+
+var _Divider = __webpack_require__(165);
+
+var _Divider2 = _interopRequireDefault(_Divider);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var TaskList = function (_React$Component) {
+    _inherits(TaskList, _React$Component);
+
+    function TaskList(props) {
+        _classCallCheck(this, TaskList);
+
+        return _possibleConstructorReturn(this, (TaskList.__proto__ || Object.getPrototypeOf(TaskList)).call(this, props));
+    }
+
+    _createClass(TaskList, [{
+        key: 'onDescriptionChange',
+        value: function onDescriptionChange(event) {}
+    }, {
+        key: 'render',
+        value: function render() {
+
+            return _react2.default.createElement(
+                _react2.default.Fragment,
+                null,
+                _react2.default.createElement(
+                    Paper,
+                    { zDepth: 1 },
+                    _react2.default.createElement(
+                        _List.List,
+                        null,
+                        _react2.default.createElement(
+                            _Subheader2.default,
+                            null,
+                            'Recent chats'
+                        ),
+                        _react2.default.createElement(_List.ListItem, { primaryText: 'Brendan Lim' }),
+                        _react2.default.createElement(_List.ListItem, { primaryText: 'Brendan Lim' }),
+                        _react2.default.createElement(_List.ListItem, { primaryText: 'Brendan Lim' }),
+                        _react2.default.createElement(_List.ListItem, { primaryText: 'Brendan Lim' }),
+                        _react2.default.createElement(_List.ListItem, { primaryText: 'Brendan Lim' }),
+                        _react2.default.createElement(_List.ListItem, { primaryText: 'Brendan Lim' }),
+                        _react2.default.createElement(_List.ListItem, { primaryText: 'Brendan Lim' })
+                    ),
+                    _react2.default.createElement(_Divider2.default, null)
+                )
+            );
+        }
+    }]);
+
+    return TaskList;
+}(_react2.default.Component);
+
+exports.default = TaskList;
+
+/***/ }),
+/* 478 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.makeSelectable = exports.ListItem = exports.List = undefined;
+
+var _List2 = __webpack_require__(159);
+
+var _List3 = _interopRequireDefault(_List2);
+
+var _ListItem2 = __webpack_require__(308);
+
+var _ListItem3 = _interopRequireDefault(_ListItem2);
+
+var _makeSelectable2 = __webpack_require__(479);
+
+var _makeSelectable3 = _interopRequireDefault(_makeSelectable2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.List = _List3.default;
+exports.ListItem = _ListItem3.default;
+exports.makeSelectable = _makeSelectable3.default;
+exports.default = _List3.default;
+
+/***/ }),
+/* 479 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.makeSelectable = undefined;
+
+var _extends2 = __webpack_require__(11);
+
+var _extends3 = _interopRequireDefault(_extends2);
+
+var _objectWithoutProperties2 = __webpack_require__(9);
+
+var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+
+var _getPrototypeOf = __webpack_require__(5);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(3);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(4);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(6);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(7);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _simpleAssign = __webpack_require__(8);
+
+var _simpleAssign2 = _interopRequireDefault(_simpleAssign);
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(2);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _colorManipulator = __webpack_require__(38);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var makeSelectable = function makeSelectable(MyComponent) {
+  var _class, _temp2;
+
+  return _temp2 = _class = function (_Component) {
+    (0, _inherits3.default)(_class, _Component);
+
+    function _class() {
+      var _ref;
+
+      var _temp, _this, _ret;
+
+      (0, _classCallCheck3.default)(this, _class);
+
+      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = _class.__proto__ || (0, _getPrototypeOf2.default)(_class)).call.apply(_ref, [this].concat(args))), _this), _this.hasSelectedDescendant = function (previousValue, child) {
+        if (_react2.default.isValidElement(child) && child.props.nestedItems && child.props.nestedItems.length > 0) {
+          return child.props.nestedItems.reduce(_this.hasSelectedDescendant, previousValue);
+        }
+        return previousValue || _this.isChildSelected(child, _this.props);
+      }, _this.handleItemClick = function (event, item) {
+        var itemValue = item.props.value;
+
+        if (itemValue !== _this.props.value) {
+          if (_this.props.onChange) {
+            _this.props.onChange(event, itemValue);
+          }
+        }
+      }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
+    }
+
+    (0, _createClass3.default)(_class, [{
+      key: 'extendChild',
+      value: function extendChild(child, styles, selectedItemStyle) {
+        var _this2 = this;
+
+        if (child && child.type && child.type.muiName === 'ListItem') {
+          var selected = this.isChildSelected(child, this.props);
+          var selectedChildrenStyles = void 0;
+          if (selected) {
+            selectedChildrenStyles = (0, _simpleAssign2.default)({}, styles, selectedItemStyle);
+          }
+
+          var mergedChildrenStyles = (0, _simpleAssign2.default)({}, child.props.style, selectedChildrenStyles);
+
+          this.keyIndex += 1;
+
+          return _react2.default.cloneElement(child, {
+            onClick: function onClick(event) {
+              _this2.handleItemClick(event, child);
+              if (child.props.onClick) {
+                child.props.onClick(event);
+              }
+            },
+            key: this.keyIndex,
+            style: mergedChildrenStyles,
+            nestedItems: child.props.nestedItems.map(function (child) {
+              return _this2.extendChild(child, styles, selectedItemStyle);
+            }),
+            initiallyOpen: this.isInitiallyOpen(child)
+          });
+        } else {
+          return child;
+        }
+      }
+    }, {
+      key: 'isInitiallyOpen',
+      value: function isInitiallyOpen(child) {
+        if (child.props.initiallyOpen) {
+          return child.props.initiallyOpen;
+        }
+        return this.hasSelectedDescendant(false, child);
+      }
+    }, {
+      key: 'isChildSelected',
+      value: function isChildSelected(child, props) {
+        return props.value === child.props.value;
+      }
+    }, {
+      key: 'render',
+      value: function render() {
+        var _this3 = this;
+
+        var _props = this.props,
+            children = _props.children,
+            selectedItemStyle = _props.selectedItemStyle,
+            other = (0, _objectWithoutProperties3.default)(_props, ['children', 'selectedItemStyle']);
+
+
+        this.keyIndex = 0;
+        var styles = {};
+
+        if (!selectedItemStyle) {
+          var textColor = this.context.muiTheme.baseTheme.palette.textColor;
+          styles.backgroundColor = (0, _colorManipulator.fade)(textColor, 0.2);
+        }
+
+        return _react2.default.createElement(
+          MyComponent,
+          (0, _extends3.default)({}, other, this.state),
+          _react.Children.map(children, function (child) {
+            return _this3.extendChild(child, styles, selectedItemStyle);
+          })
+        );
+      }
+    }]);
+    return _class;
+  }(_react.Component), _class.propTypes = {
+    children: _propTypes2.default.node,
+    onChange: _propTypes2.default.func,
+    selectedItemStyle: _propTypes2.default.object,
+    value: _propTypes2.default.any
+  }, _class.contextTypes = {
+    muiTheme: _propTypes2.default.object.isRequired
+  }, _temp2;
+};
+
+exports.makeSelectable = makeSelectable;
+exports.default = makeSelectable;
+
+/***/ }),
+/* 480 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Dialog = __webpack_require__(163);
+
+var _Dialog2 = _interopRequireDefault(_Dialog);
+
+var _FlatButton = __webpack_require__(100);
+
+var _FlatButton2 = _interopRequireDefault(_FlatButton);
+
+var _FloatingActionButton = __webpack_require__(98);
+
+var _FloatingActionButton2 = _interopRequireDefault(_FloatingActionButton);
+
+var _addItem = __webpack_require__(326);
+
+var _addItem2 = _interopRequireDefault(_addItem);
+
+var _add = __webpack_require__(328);
+
+var _add2 = _interopRequireDefault(_add);
+
+var _TextField = __webpack_require__(164);
+
+var _TextField2 = _interopRequireDefault(_TextField);
+
+var _RaisedButton = __webpack_require__(157);
+
+var _RaisedButton2 = _interopRequireDefault(_RaisedButton);
+
+var _Divider = __webpack_require__(165);
+
+var _Divider2 = _interopRequireDefault(_Divider);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var AddBoardItem = function (_React$Component) {
+    _inherits(AddBoardItem, _React$Component);
+
+    function AddBoardItem(props) {
+        _classCallCheck(this, AddBoardItem);
+
+        var _this = _possibleConstructorReturn(this, (AddBoardItem.__proto__ || Object.getPrototypeOf(AddBoardItem)).call(this, props));
+
+        _this.state = {
+            open: false,
+            boardName: "",
+            desc: ""
+        };
+        _this.handleOpen = _this.handleOpen.bind(_this);
+        _this.handleClose = _this.handleClose.bind(_this);
+        return _this;
+    }
+
+    _createClass(AddBoardItem, [{
+        key: 'onSubmit',
+        value: function onSubmit() {
+            this.props.onItemAdd({
+                title: this.state.title,
+                desc: this.state.desc
+            });
+            this.setState({ open: false });
+        }
+    }, {
+        key: 'onNameChange',
+        value: function onNameChange(event) {
+            var _name = event.target.value;
+            this.setState({
+                title: _name
+            });
+        }
+    }, {
+        key: 'onDescriptionChange',
+        value: function onDescriptionChange(event) {
+            var _desc = event.target.value;
+            this.setState({
+                desc: _desc
+            });
+        }
+    }, {
+        key: 'handleOpen',
+        value: function handleOpen() {
+            this.setState({ open: true, title: "", desc: "" });
+        }
+    }, {
+        key: 'handleClose',
+        value: function handleClose() {
+            this.setState({ open: false });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            return _react2.default.createElement(
+                _react2.default.Fragment,
+                null,
+                _react2.default.createElement(
+                    _FloatingActionButton2.default,
+                    { className: 'board-list__add-new-btn', onClick: this.handleOpen },
+                    _react2.default.createElement(_add2.default, null)
+                ),
+                _react2.default.createElement(
+                    _Dialog2.default,
+                    { title: 'Add a board',
+                        modal: false,
+                        open: this.state.open,
+                        onRequestClose: this.handleClose },
+                    _react2.default.createElement(
+                        'div',
+                        null,
+                        _react2.default.createElement(_TextField2.default, {
+                            hintText: 'Enter project name', value: this.state.title, onChange: function onChange(evt) {
+                                _this2.onNameChange(evt);
+                            } }),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement(_TextField2.default, {
+                            multiLine: true,
+                            rows: 2,
+                            rowsMax: 4,
+                            fullWidth: true,
+                            hintText: 'Put some description', value: this.state.desc, onChange: function onChange(evt) {
+                                _this2.onDescriptionChange(evt);
+                            } }),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'form__cta-holder' },
+                            _react2.default.createElement(_RaisedButton2.default, {
+                                label: 'Create Board',
+                                primary: true,
+                                onClick: function onClick(evt) {
+                                    _this2.onSubmit(evt);
+                                } })
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return AddBoardItem;
+}(_react2.default.Component);
+
+exports.default = AddBoardItem;
+
+/***/ }),
+/* 481 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Dialog = __webpack_require__(163);
+
+var _Dialog2 = _interopRequireDefault(_Dialog);
+
+var _FlatButton = __webpack_require__(100);
+
+var _FlatButton2 = _interopRequireDefault(_FlatButton);
+
+var _FloatingActionButton = __webpack_require__(98);
+
+var _FloatingActionButton2 = _interopRequireDefault(_FloatingActionButton);
+
+var _addItem = __webpack_require__(326);
+
+var _addItem2 = _interopRequireDefault(_addItem);
+
+var _add = __webpack_require__(328);
+
+var _add2 = _interopRequireDefault(_add);
+
+var _TextField = __webpack_require__(164);
+
+var _TextField2 = _interopRequireDefault(_TextField);
+
+var _RaisedButton = __webpack_require__(157);
+
+var _RaisedButton2 = _interopRequireDefault(_RaisedButton);
+
+var _Divider = __webpack_require__(165);
+
+var _Divider2 = _interopRequireDefault(_Divider);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var AddBoardItem = function (_React$Component) {
+    _inherits(AddBoardItem, _React$Component);
+
+    function AddBoardItem(props) {
+        _classCallCheck(this, AddBoardItem);
+
+        var _this = _possibleConstructorReturn(this, (AddBoardItem.__proto__ || Object.getPrototypeOf(AddBoardItem)).call(this, props));
+
+        _this.state = {
+            open: false,
+            title: "",
+            type: ""
+        };
+        _this.handleOpen = _this.handleOpen.bind(_this);
+        _this.handleClose = _this.handleClose.bind(_this);
+        return _this;
+    }
+
+    _createClass(AddBoardItem, [{
+        key: 'onSubmit',
+        value: function onSubmit() {
+            this.props.onItemAdd({
+                title: this.state.title,
+                desc: this.state.desc
+            });
+            this.setState({ open: false });
+        }
+    }, {
+        key: 'onTitleChange',
+        value: function onTitleChange(event) {
+            var _title = event.target.value;
+            this.setState({
+                title: _title
+            });
+        }
+    }, {
+        key: 'onTypeChange',
+        value: function onTypeChange(event) {
+            var _type = event.target.value;
+            this.setState({
+                type: _desc
+            });
+        }
+    }, {
+        key: 'handleOpen',
+        value: function handleOpen() {
+            this.setState({ open: true, title: "", desc: "" });
+        }
+    }, {
+        key: 'handleClose',
+        value: function handleClose() {
+            this.setState({ open: false });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            return _react2.default.createElement(
+                _react2.default.Fragment,
+                null,
+                _react2.default.createElement(
+                    _FloatingActionButton2.default,
+                    { className: 'board-list__add-new-btn', onClick: this.handleOpen },
+                    _react2.default.createElement(_add2.default, null)
+                ),
+                _react2.default.createElement(
+                    _Dialog2.default,
+                    { title: 'Add a board',
+                        modal: false,
+                        open: this.state.open,
+                        onRequestClose: this.handleClose },
+                    _react2.default.createElement(
+                        'div',
+                        null,
+                        _react2.default.createElement(_TextField2.default, {
+                            hintText: 'Enter task list title', value: this.state.title, onChange: function onChange(evt) {
+                                _this2.onTitleChange(evt);
+                            } }),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement(_TextField2.default, {
+                            hintText: 'Enter type name', value: this.state.title, onChange: function onChange(evt) {
+                                _this2.onTypeChange(evt);
+                            } }),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'form__cta-holder' },
+                            _react2.default.createElement(_RaisedButton2.default, {
+                                label: 'Create Task List',
+                                primary: true,
+                                onClick: function onClick(evt) {
+                                    _this2.onSubmit(evt);
+                                } })
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return AddBoardItem;
+}(_react2.default.Component);
+
+exports.default = AddBoardItem;
 
 /***/ })
 /******/ ]);

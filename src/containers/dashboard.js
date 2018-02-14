@@ -4,7 +4,7 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 
 import styles from './dashboard.css';
 import BoardItem from './../components/board-item.jsx';
-import AddItem from './../components/add-item.jsx';
+import AddItem from './../components/add-board-item.jsx';
 
 import GraphQLService from './../services/graphql-services';
 
