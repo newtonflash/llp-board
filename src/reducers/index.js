@@ -1,8 +1,10 @@
-const reducer = (state = [], action) => {
-    switch (action.type) {
-        default:
-            return state
-    }
-}
+import  {combineReducers} from 'redux';
+import BoardReducers from './board-reducers';
+import Dashboard from './dashboard-reducers';
 
-export default reducer;
+const CombinedReducers =  combineReducers({
+    Dashboard,
+    BoardReducers
+});
+
+export default CombinedReducers;

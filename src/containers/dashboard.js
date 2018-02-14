@@ -8,16 +8,12 @@ import AddItem from './../components/add-item.jsx';
 
 import GraphQLService from './../services/graphql-services';
 
+import {connect} from 'react-redux';
+import DashboardActions from '../actions/dashboard-actions';
 
-
-
-
-export default class DashBoard extends Component {
-    constructor(){
-        super();
-        this.state = {
-            boards : []
-        };
+class DashBoard extends Component {
+    constructor(props){
+        super(props);
         this.onItemRemove = this.onItemRemove.bind(this);
         this.onItemAdd = this.onItemAdd.bind(this);
         this.onBoardUpdate = this.onBoardUpdate.bind(this);
@@ -32,40 +28,36 @@ export default class DashBoard extends Component {
     }
 
     componentDidMount(){
-        this.getBoardList();
-    };
+        this.props.dispatch(DashboardActions.getBoardsData({}));
+    }
 
     onItemRemove (data){
-        GraphQLService.deleteBoard(data, (res) => {
-            this.getBoardList();
-        })
+        this.props.dispatch(DashboardActions.deleteBoard(data));
     }
 
     onItemAdd(data) {
-        GraphQLService.addNewBoard(data, (res)=>{
-            this.getBoardList();
-        });
+        this.props.dispatch(DashboardActions.addNewBoard(data));
     }
 
     onBoardUpdate(data){
-        GraphQLService.updateBoard(data, (res)=>{
-            console.log(data);
-            this.getBoardList();
-        });
+        this.props.dispatch(DashboardActions.updateBoard(data));
     }
 
+    getBoards(){
+        if(this.props.boards.length){
+            return this.props.boards.map((item, index) => {
+                return (<BoardItem
+                    key={index}
+                    data={item}
+                    index={index}
+                    onItemRemove={this.onItemRemove}
+                    onUpdateboard={this.onBoardUpdate}
+                ></BoardItem>);
+            });
+        }
+    };
 
     render() {
-        const getBoards = this.state.boards.map((item, index) => {
-                                return <BoardItem
-                                    key={index}
-                                    data={item}
-                                    index={index}
-                                    onItemRemove={this.onItemRemove}
-                                    onUpdateboard={this.onBoardUpdate}
-                                ></BoardItem>;
-                            });
-
         return (
             <React.Fragment>
                 <AppBar
@@ -74,7 +66,7 @@ export default class DashBoard extends Component {
 
                 </AppBar>
                 <div className="board-list">
-                    {getBoards}
+                    {this.getBoards()}
                     <AddItem onItemAdd={this.onItemAdd}/>
                 </div>
             </React.Fragment>
@@ -82,4 +74,19 @@ export default class DashBoard extends Component {
     }
 }
 
+
+const stateToPropMapping = (state) => {
+    return {
+        boards : state.Dashboard.boards
+    }
+};
+
+const dispatchToPropsMapping = (dispatch) => {
+    return{
+        dispatch
+    }
+};
+
+
+export default connect(stateToPropMapping, dispatchToPropsMapping)(DashBoard);
 

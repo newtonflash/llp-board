@@ -16,7 +16,6 @@ export default class GraphQLService {
                 }
             }
           `);
-
         client.query(query)
             .then(resp => {
                 callback(resp.boards);

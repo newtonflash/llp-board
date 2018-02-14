@@ -33,7 +33,8 @@
     "lokka": "^1.7.0",
     "lokka-transport-http": "^1.6.1",
     "material-ui": "^0.20.0",
-    "react": "^16.2.0"
+    "react": "^16.2.0",
+    "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
     "async": "^2.6.0",

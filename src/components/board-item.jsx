@@ -13,6 +13,9 @@ import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import Divider from 'material-ui/Divider';
 
+
+import PropTypes from 'prop-types';
+
 export default class BoardItem extends React.Component {
     constructor (props){
         super(props);
@@ -27,8 +30,8 @@ export default class BoardItem extends React.Component {
         this.onTitleChange = this.onTitleChange.bind(this);
         this.onDescChange = this.onDescChange.bind(this);
         this.closeEditDialog = this.closeEditDialog.bind(this);
-
     }
+
     onView(){
         this.setState({
             redirect:true
@@ -106,8 +109,7 @@ export default class BoardItem extends React.Component {
                     <Dialog title="Update Board"
                             modal={false}
                             open={this.state.isEditDialogOpen}
-                            onRequestClose={this.closeEditDialog}
-                    >
+                            onRequestClose={this.closeEditDialog}>
                         <div>
 
                             <TextField
@@ -143,6 +145,9 @@ export default class BoardItem extends React.Component {
                 </Paper>)
             )
         }
-
     }
 }
+
+BoardItem.propTypes = {
+    onUpdateboard: PropTypes.func.isRequired
+};
