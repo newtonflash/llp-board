@@ -11,15 +11,22 @@ const addBoard = function(board){
 
 };
 
-const deleteBoard = function(boardID){
+const deleteBoard = function(board){
+   /* BoardsModel.remove({_id:board.id}, function (err) {
+        if (err) return console.log(err);
+        return boardID.id;
+    });*/
 
-    const boardsData = BoardsModel.find({id:boardID.id}).remove().exec();
-    boardsData.then((data)=>{
-        console.log(data);
-        return boardID;
-    }).catch((err)=>{
-        console.log(err);
-    })
+    BoardsModel.findById(board.id + "", (err, model) => {
+        if(err || model === null) return err;
+
+        //console.log(model);
+        model.remove((err) => {
+            if(err) return err;
+            //console.log("resulting ",model);
+            return model;
+        });
+    });
 };
 
 const updateBoard = function(board){
