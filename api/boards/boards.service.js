@@ -1,14 +1,32 @@
 const BoardsModel = require('./boards.schema');
 
+const defaultListData = [
+    {
+        title : "Not Started",
+        order : 1,
+        tasks : []
+    },
+    {
+        title : "On going",
+        order : 2,
+        tasks : []
+    },
+    {
+        title : "Completed",
+        order : 3,
+        tasks : []
+    }
+]
+
+
 const addBoard = function(board){
     let newBoard = new BoardsModel({
         title: board.title,
-        desc: board.desc
+        desc: board.desc,
+        taskList : defaultListData
     });
     let boardResponse = newBoard.save();
-
     return boardResponse;
-
 };
 
 const deleteBoard = function(board){
@@ -40,8 +58,8 @@ const updateBoard = function(board){
 
 };
 
-const getBoard = function(id) {
-    const boardsData = BoardsModel.find({_id: id}, (err, data) => {
+const getBoardById = function(id) {
+    const boardsData = BoardsModel.findById(id, (err, data) => {
         if(err) {
             console.log(err);
             return err;
@@ -58,7 +76,8 @@ const getBoards = function(){
         if(err) {
             return err;
         }
-       // return data;
+
+       // return data; //what is the need of this query? how does graph ql know about this query api to execute?
     });
     return boardsData;
 };
@@ -68,5 +87,5 @@ module.exports = {
     deleteBoard,
     updateBoard,
     getBoards,
-    getBoard
+    getBoardById
 };

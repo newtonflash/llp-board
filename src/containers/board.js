@@ -12,16 +12,17 @@ import  { Redirect } from 'react-router-dom';
 import {connect} from 'react-redux';
 import TaskList from '../components/task-list';
 import AddTaskList from '../components/add-task-list';
+import BoardActions from "../actions/board-actions";
 
 class Board extends Component {
     constructor(props){
         super(props);
-        console.log(this.props.match.params);
-        this.boardId = this.props.match.params.id *1;
+        //console.log(this.props.match.params);
+        this.boardId = this.props.match.params.id;
     }
 
     componentDidMount () {
-
+        this.props.dispatch(BoardActions.getBoardData(this.boardId));
     }
 
     getAllLists(list) {
@@ -33,14 +34,14 @@ class Board extends Component {
     }
 
     onTaskListAdd (data) {
-        
+
     }
 
     render() {
         return (
             <React.Fragment>
                 <AppBar
-                    title="asdfasdf"
+                    title={this.props.board.title}
 
                     iconElementRight={
                         <Link to="/">
@@ -60,7 +61,7 @@ class Board extends Component {
 
 const stateToPropMapping = (state) => {
     return {
-        board : Board
+        board : state.Board
     }
 };
 

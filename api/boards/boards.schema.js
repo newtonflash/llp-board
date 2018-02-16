@@ -18,6 +18,9 @@ const TaskListSchema = Mongoose.Schema({
         type:String,
         required:true
     },
+    order : {
+        type:Number
+    },
     tasks : [TaskSchema]
 });
 

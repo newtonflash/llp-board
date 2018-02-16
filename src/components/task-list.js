@@ -2,14 +2,15 @@ import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import styles from './add-item.css';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import TextField from 'material-ui/TextField';
+import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import {List, ListItem} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
+import styles from './task-list.css';
 
 export default class TaskList extends React.Component {
 
@@ -26,16 +27,15 @@ export default class TaskList extends React.Component {
 
         return (
             <React.Fragment>
-                <Paper zDepth={1} >
+                <Paper className="task-list" zDepth={1} >
                     <List>
-                        <Subheader>Recent chats</Subheader>
-                        <ListItem primaryText="Brendan Lim"/>
-                        <ListItem primaryText="Brendan Lim"/>
-                        <ListItem primaryText="Brendan Lim"/>
-                        <ListItem primaryText="Brendan Lim"/>
-                        <ListItem primaryText="Brendan Lim"/>
-                        <ListItem primaryText="Brendan Lim"/>
-                        <ListItem primaryText="Brendan Lim"/>
+                        <Subheader className="task-header">{this.props.data.title}</Subheader>
+                        <ListItem className="task" primaryText="Brendan Lim"/>
+                        <ListItem className="task" primaryText="Brendan Lim"/>
+                        <ListItem className="task" primaryText="Brendan Lim"/>
+                        <ListItem className="task" primaryText="Brendan Lim"/>
+                        <ListItem className="task" primaryText="Brendan Lim"/>
+                        <ListItem className="task" primaryText="Brendan Lim"/>
                     </List>
                     <Divider />
                 </Paper>

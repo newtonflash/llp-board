@@ -67,4 +67,27 @@ export default class GraphQLService {
             console.log(e);
         })
     }
+
+    static getBoardById(id, callback){
+        const query = (`
+            {
+                getBoardById(id:"${id}"){
+                    id,
+                    title,
+                    desc,
+                    taskList {
+                        title,
+                        order
+                    }
+                }
+            }
+          `);
+        client.query(query)
+            .then(resp => {
+                console.log(resp.getBoardById);
+                callback(resp.getBoardById);
+            }).catch(function(e) {
+            console.log(e);
+        })
+    }
 }

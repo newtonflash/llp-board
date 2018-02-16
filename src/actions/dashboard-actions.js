@@ -11,7 +11,7 @@ import GraphQLService from '../services/graphql-services';
  */
 const initDashboard = (data) => {
     return {
-        type: Events.UPDATE_BOARD,
+        type: Events.UPDATE_DASHBOARD,
         data: data
     }
 };

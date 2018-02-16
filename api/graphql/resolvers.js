@@ -7,8 +7,8 @@ var resolver = {
         boards : (parent, args, context, info)=>{
             return BoardService.getBoards();
         },
-        getBoard: (parent, args = {id : 0}, context, info) => {
-            return BoardService.getBoard(args.id);
+        getBoardById: (parent, args = {id : 0}, context, info) => {
+            return BoardService.getBoardById(args.id);
         },
         taskList : (_ , args, context, info) => {
             return "tasks";

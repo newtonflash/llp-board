@@ -10,10 +10,52 @@ const {
     GraphQLBoolean
 } = require ('graphql/type');
 
-
-
 const resolver = require('./resolvers');
 
+
+const task = new GraphQLObjectType ({
+    name: 'task',
+    description: 'Task object',
+    fields : () => ({
+        title : {
+            type: GraphQLString,
+            description: 'Title of individual task'
+        },
+        desc : {
+            type: GraphQLString,
+            description: 'Description of the task if exists( optional)'
+        },
+        order : {
+            type: GraphQLInt,
+            description: "Tasks priority order"
+        }
+    })
+});
+
+const taskList = new GraphQLObjectType({
+    name:'tasklist',
+    description: 'task list',
+    fields : () => ({
+        id : {
+            type: GraphQLString,
+            description: 'id list'
+        },
+
+        title : {
+            type: GraphQLString,
+            description: 'title'
+        },
+        order : {
+            type: GraphQLInt,
+            description: 'desc'
+        },
+
+        tasks : {
+            type: new GraphQLList(task),
+            description: "Task Item"
+        }
+    })
+});
 
 const board = new GraphQLObjectType({
     name:'board',
@@ -30,32 +72,15 @@ const board = new GraphQLObjectType({
         desc : {
             type: GraphQLString,
             description: 'desc'
+        },
+        taskList : {
+            type: new GraphQLList(taskList),
+            description: 'Task list'
         }
     })
 });
 
-const taskList = new GraphQLObjectType({
-    name:'tasklist',
-    description: 'task list',
-    fields : () => ({
-        id : {
-            type: GraphQLInt,
-            description: 'id list'
-        },
-
-        title : {
-            type: GraphQLString,
-            description: 'title'
-        },
-        desc : {
-            type: GraphQLString,
-            description: 'desc'
-        }
-    })
-});
-
-
-
+/*
 const boardInput = new GraphQLInputObjectType({
     name:'board',
     description: 'board',
@@ -69,7 +94,8 @@ const boardInput = new GraphQLInputObjectType({
             description: 'desc'
         }
     })
-})
+});
+*/
 
 const mutations = new GraphQLObjectType({
     name: "dashboardMutations",
@@ -128,13 +154,13 @@ const rootQuery = new GraphQLObjectType({
             resolve :resolver.queries.boards
 
         },
-        board : {
-            type : new GraphQLList(board),
+        getBoardById : {
+            type : board,
             description: "Get board by id",
             args: {
                 id: { type: GraphQLString }
             },
-            resolve : resolver.queries.getBoard
+            resolve : resolver.queries.getBoardById
         },
         list : {
             type: taskList,

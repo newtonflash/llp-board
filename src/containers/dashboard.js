@@ -44,6 +44,7 @@ class DashBoard extends Component {
     }
 
     getBoards(){
+        //console.log(this.props);
         if(this.props.boards.length){
             return this.props.boards.map((item, index) => {
                 return (<BoardItem

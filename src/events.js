@@ -1,6 +1,6 @@
 const Events = {
     ADD_NEW_BOARD       : "dashboard/add new",
-    UPDATE_BOARD        : "dashboard/update board item",
+    UPDATE_DASHBOARD    : "dashboard/update dashboard",
     DELETE_BOARD        : "dashboard/delete board",
     GET_BOARDS_DATA     : "dashboard/get boards data",
     VIEW_BOARD          : "board/view board", // this is for routing, keeping it reserved. not sure will need it or not.

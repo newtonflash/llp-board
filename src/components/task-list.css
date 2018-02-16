@@ -1,0 +1,13 @@
+.task-list {
+    width: 300px;
+    border: 1px solid #bbb;
+    display: inline-block;
+    vertical-align: top;
+    margin: 10px;
+}
+.task{
+    border-top:1px solid #eee !important;
+}
+.task-header{
+    text-transform: uppercase;
+}
