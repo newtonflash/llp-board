@@ -63,7 +63,6 @@ export default class BoardItem extends React.Component {
         this.setState({
             editableTitle : _title
         });
-        console.log(_title);
     }
 
     onDescChange(event) {
@@ -149,5 +148,11 @@ export default class BoardItem extends React.Component {
 }
 
 BoardItem.propTypes = {
-    onUpdateboard: PropTypes.func.isRequired
+    onUpdateboard: PropTypes.func.isRequired,
+    data : PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        title : PropTypes.string.isRequired,
+        desc : PropTypes.string
+    })
+
 };

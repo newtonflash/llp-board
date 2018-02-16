@@ -12083,7 +12083,6 @@ var BoardItem = function (_React$Component) {
             this.setState({
                 editableTitle: _title
             });
-            console.log(_title);
         }
     }, {
         key: 'onDescChange',
@@ -12206,7 +12205,13 @@ exports.default = BoardItem;
 
 
 BoardItem.propTypes = {
-    onUpdateboard: _propTypes2.default.func.isRequired
+    onUpdateboard: _propTypes2.default.func.isRequired,
+    data: _propTypes2.default.shape({
+        id: _propTypes2.default.string.isRequired,
+        title: _propTypes2.default.string.isRequired,
+        desc: _propTypes2.default.string
+    })
+
 };
 
 /***/ }),

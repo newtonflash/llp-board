@@ -12,37 +12,44 @@ const addBoard = function(board){
 };
 
 const deleteBoard = function(board){
-   /* BoardsModel.remove({_id:board.id}, function (err) {
-        if (err) return console.log(err);
-        return boardID.id;
-    });*/
 
-    BoardsModel.findById(board.id + "", (err, model) => {
-        if(err || model === null) return err;
+    const query = {_id : board.id + ""};
 
-        //console.log(model);
-        model.remove((err) => {
-            if(err) return err;
-            //console.log("resulting ",model);
-            return model;
-        });
-    });
+    let returnPromise = BoardsModel.findOneAndRemove(
+        query ,
+        { rowResult : true }
+    );
+
+    return returnPromise;
 };
 
 const updateBoard = function(board){
-    BoardsModel.findById(board.id + "", (err, model) => {
-        if(err) return err;
 
-        model.set({
+    const query = {_id : board.id + ""};
+
+    let returnPromise = BoardsModel.findOneAndUpdate(
+        query ,
+        {
             desc: board.desc,
             title: board.title
-        });
+        },
+        { new : true }
+    );
 
-        model.save((err, updateData) => {
-            if(err) return err;
-            return updateData;
-        });
+    return returnPromise;
+
+};
+
+const getBoard = function(id) {
+    const boardsData = BoardsModel.find({_id: id}, (err, data) => {
+        if(err) {
+            console.log(err);
+            return err;
+        }
+        return data;
     });
+
+    return boardsData;
 };
 
 const getBoards = function(){
@@ -51,7 +58,7 @@ const getBoards = function(){
         if(err) {
             return err;
         }
-        return data;
+       // return data;
     });
     return boardsData;
 };
@@ -60,5 +67,6 @@ module.exports = {
     addBoard,
     deleteBoard,
     updateBoard,
-    getBoards
+    getBoards,
+    getBoard
 };

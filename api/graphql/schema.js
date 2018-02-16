@@ -129,10 +129,10 @@ const rootQuery = new GraphQLObjectType({
 
         },
         board : {
-            type : board,
+            type : new GraphQLList(board),
             description: "Get board by id",
             args: {
-                id: { type: GraphQLInt }
+                id: { type: GraphQLString }
             },
             resolve : resolver.queries.getBoard
         },
