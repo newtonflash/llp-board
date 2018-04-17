@@ -16,16 +16,33 @@ const initBoard = (data) => {
     }
 };
 
+const updateTaskList = data => {
+    return {
+        type : Events.BOARD_UPDATE,
+        data: data
+    }
+}
+
 const BoardActions = {
     getBoardData: (id) => {
         return dispatch =>{
             GraphQLService.getBoardById(id, (res)=> {
-                console.log(res);
                dispatch(initBoard(res))
             });
         }
+    },
+
+    reorderTaskList: (data) => {
+        return dispatch => {
+            GraphQLService.updateTaskList(data, (res)=> {
+
+                dispatch(updateTaskList(data));
+            });
+
+        }
     }
 };
+
 
 
 export  default BoardActions;

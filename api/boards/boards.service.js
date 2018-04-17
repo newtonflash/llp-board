@@ -82,10 +82,27 @@ const getBoards = function(){
     return boardsData;
 };
 
+
+const updateTaskList = function(board){
+
+    const query = {_id : board.id + ""};
+
+    let returnPromise = BoardsModel.findOneAndUpdate(
+        query ,
+        {
+            taskList: board.taskList
+        },
+        { new : true }
+    );
+
+    return returnPromise;
+};
+
 module.exports = {
     addBoard,
     deleteBoard,
     updateBoard,
     getBoards,
-    getBoardById
+    getBoardById,
+    updateTaskList
 };

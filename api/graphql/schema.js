@@ -7,7 +7,8 @@ const {
     GraphQLString,
     GraphQLList,
     GraphQLInt,
-    GraphQLBoolean
+    GraphQLBoolean,
+    GraphQLInputType
 } = require ('graphql/type');
 
 const resolver = require('./resolvers');
@@ -57,6 +58,9 @@ const taskList = new GraphQLObjectType({
     })
 });
 
+
+
+
 const board = new GraphQLObjectType({
     name:'board',
     description: 'board',
@@ -75,6 +79,73 @@ const board = new GraphQLObjectType({
         },
         taskList : {
             type: new GraphQLList(taskList),
+            description: 'Task list'
+        }
+    })
+});
+
+const TaskInput = new GraphQLInputObjectType ({
+    name: 'TaskInput',
+    description: 'Task object',
+    fields : () => ({
+        title : {
+            type: GraphQLString,
+            description: 'Title of individual task'
+        },
+        desc : {
+            type: GraphQLString,
+            description: 'Description of the task if exists( optional)'
+        },
+        order : {
+            type: GraphQLInt,
+            description: "Tasks priority order"
+        }
+    })
+});
+
+const TaskListInput = new GraphQLInputObjectType({
+    name : 'TaskListInput',
+    fields : () => ({
+        id : {
+            type: GraphQLString,
+            description: 'id of the board'
+        },
+        title : {
+            type: GraphQLString,
+            description: 'title'
+        },
+        desc : {
+            type: GraphQLString,
+            description: 'desc'
+        },
+        taskList : {
+            type: new GraphQLList(TaskInput),
+            description: 'Task list'
+        }
+    })
+});
+
+const TaskListArrayInput = new GraphQLInputObjectType({
+    name : 'TaskListArrayInput',
+    fields : () => ({
+        id : {
+            type: GraphQLString,
+            description: 'id of the board'
+        },
+        title : {
+            type: GraphQLString,
+            description: 'title'
+        },
+        desc : {
+            type: GraphQLString,
+            description: 'desc'
+        },
+        order : {
+            type: GraphQLInt,
+            description: 'order of the fields'
+        },
+        taskList : {
+            type: new GraphQLList(TaskListInput),
             description: 'Task list'
         }
     })
@@ -139,6 +210,19 @@ const mutations = new GraphQLObjectType({
             },
             description : 'Update a board',
             resolve : resolver.mutations.updateBoard
+        },
+        updateTaskList : {
+            type : board,
+            args : {
+                id: {
+                    type: GraphQLString
+                },
+                taskList : {
+                    type: new GraphQLList(TaskListArrayInput)
+                }
+            },
+            description : 'Update order of tasks list',
+            resolve : resolver.mutations.updateTaskList
         }
     }
 });

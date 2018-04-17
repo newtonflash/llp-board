@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
 import CombinedReducers from './reducers/';
 import ReduxThunk from 'redux-thunk';
+import { DragDropContext } from 'react-beautiful-dnd';
 
 
 const ApplicationStore = createStore(CombinedReducers, /* {}, */
@@ -23,10 +24,14 @@ const DashBoardWrapper = () =>{
 };
 
 const BoardWrapper = (prop) => {
+
+
     return (
-        <MuiThemeProvider>
-            <Board {...prop}/>
-        </MuiThemeProvider>
+
+            <MuiThemeProvider>
+                <Board {...prop}/>
+            </MuiThemeProvider>
+
     )
 };
 

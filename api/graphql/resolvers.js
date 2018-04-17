@@ -24,6 +24,9 @@ var resolver = {
 
         updateBoard : (parent, input, context) => {
             return BoardService.updateBoard(input);
+        },
+        updateTaskList : (parent, input, context) => {
+            return BoardService.updateTaskList(input);
         }
     }
 

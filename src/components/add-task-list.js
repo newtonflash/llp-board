@@ -29,6 +29,13 @@ export default class AddBoardItem extends React.Component {
         this.setState({open: false});
     }
 
+    onTypeChange (event) {
+        let _type = event.target.value;
+        this.setState({
+            type: _type
+        })
+    }
+
     onTitleChange(event){
         let _title = event.target.value;
         this.setState({
@@ -36,12 +43,7 @@ export default class AddBoardItem extends React.Component {
         });
     }
 
-    onTypeChange (event) {
-        let _type = event.target.value;
-        this.setState({
-            type: _desc
-        })
-    }
+
 
     handleOpen() {
         this.setState({open: true, title: "", desc:""});
@@ -58,18 +60,21 @@ export default class AddBoardItem extends React.Component {
                 <FloatingActionButton className="board-list__add-new-btn" onClick={this.handleOpen}>
                     <ContentAdd />
                 </FloatingActionButton>
-                <Dialog title="Add a board"
+                <Dialog title="Add a board."
                         modal={false}
                         open={this.state.open}
                         onRequestClose={this.handleClose}>
                     <div>
-
                         <TextField
-                            hintText="Enter task list title" value={this.state.title} onChange={(evt) => {this.onTitleChange(evt)}}/>
+                            hintText="Enter type name"
+                            value={this.state.type}
+                            onChange={(evt) => {this.onTypeChange(evt)}}/>
+
                         <br/>
-
                         <TextField
-                            hintText="Enter type name" value={this.state.title} onChange={(evt) => {this.onTypeChange(evt)}}/>
+                            hintText="Enter task list title (optional)"
+                            value={this.state.title}
+                            onChange={(evt) => {this.onTitleChange(evt)}}/>
                         <br/>
                         <div className="form__cta-holder">
                             <RaisedButton
@@ -77,7 +82,6 @@ export default class AddBoardItem extends React.Component {
                                 primary={true}
                                 onClick={(evt) =>{this.onSubmit(evt)}}/>
                         </div>
-
                     </div>
 
                 </Dialog>

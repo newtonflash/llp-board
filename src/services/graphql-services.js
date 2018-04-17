@@ -84,7 +84,32 @@ export default class GraphQLService {
           `);
         client.query(query)
             .then(resp => {
-                console.log(resp.getBoardById);
+                callback(resp.getBoardById);
+            }).catch(function(e) {
+            console.log(e);
+        })
+    }
+
+    static updateTaskList(data, callback){
+        var taskList = data.taskList
+
+        //let mutationQuery = `{ updateTaskList(id:'" + data.id + "' taskList:["+ taskList +"]){id, title, desc, taskList{title, order}}}`;
+
+        const mutation = (`
+            {
+                updateTaskList( id : "${data.id}" , taskList: ${JSON.stringify(taskList).replace(/\{\"/g, "{").replace(/\,\"/g, ",").replace(/\"\:/g, ":")} ){
+                    id,
+                    title,
+                    desc,
+                    taskList {
+                        title,
+                        order
+                    }
+                }
+            }
+          `);
+       client.mutate(mutation)
+            .then(resp => {
                 callback(resp.getBoardById);
             }).catch(function(e) {
             console.log(e);

@@ -1,3 +1,10 @@
 .app-bar-link{
     color:white !important;
 }
+
+.test{
+    width:200px;
+    height:200px;
+    background:white;
+    margin:10px;
+}
