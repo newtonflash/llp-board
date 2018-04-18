@@ -24,4 +24,10 @@ npm run webpack
 
 ### notes
 Docker instantiation :
-docker build -t llp-board .
+docker build -t llp-board
+
+
+
+## mocha installation
+sudo npm install mocha
+sudo npm install chai -g
