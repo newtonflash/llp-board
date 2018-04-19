@@ -13,9 +13,15 @@ import {connect} from 'react-redux';
 import TaskList from '../components/tasks/task-list';
 import AddTaskList from '../components/add-task-list';
 import BoardActions from "../actions/board-actions";
+import Paper from 'material-ui/Paper';
+import Subheader from 'material-ui/Subheader';
 
 
 import { Droppable,Draggable, DragDropContext } from 'react-beautiful-dnd';
+
+const TASK_LIST = "TASK_LIST";
+const BOARDS = "BOARDS";
+
 
 const getListStyle = isDraggingOver => ({
     background: isDraggingOver ? "#f0f0f0" : "white",
@@ -24,11 +30,30 @@ const getListStyle = isDraggingOver => ({
     overflow: "auto"
 });
 
-const reorder = (list, startIndex, endIndex) => {
-    const result = Array.from(list);
+const reorder = (orderType, taskLists, source, destination) => {
+
+    console.log(source);
+
+    console.log(destination);
+
+
+    const resultantArr =  Array.from(taskLists);
+
+    if(orderType === BOARDS){
+        const [removed] = resultantArr.splice(source.index, 1);
+        resultantArr.splice(destination.index, 0, removed);
+    }
+
+    if(orderType ===  TASK_LIST){
+
+    }
+
+    return resultantArr;
+
+   /* const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
-    return result;
+    return result;*/
 };
 
 class Board extends Component {
@@ -73,10 +98,15 @@ class Board extends Component {
             return;
         }
 
+        let orderType = TASK_LIST;
+
+        if(result.destination.droppableId.indexOf(BOARDS) > -1) orderType = BOARDS;
+
        const items = reorder(
+            orderType,
             this.props.board.taskList,
-            result.source.index,
-            result.destination.index
+            result.source,
+            result.destination
         );
 
         this.props.board.taskList = items;
@@ -103,27 +133,31 @@ class Board extends Component {
                     >
                     </AppBar>
 
-                    <Droppable droppableId="droppable" direction="horizontal">
+                    <Droppable droppableId="BOARDS" direction="horizontal" type="BOARDS">
                         {(provided, snapshot) => (
                             <div
                                 ref={provided.innerRef}
                                 style={getListStyle(snapshot.isDraggingOver)}
                                 {...provided.droppableProps}
                             >
-
                                 {
-
                                     taskList.map((item, index) => (
 
-                                        <Draggable key={index} draggableId={index} index={index}>
+                                        <Draggable key={index} draggableId={item.order} index={index} type="BOARDS">
                                             {(provided, snapshot) => (
                                                 <div
                                                     ref={provided.innerRef}
                                                     {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
                                                 >
-                                                    <TaskList data={item} key={index}></TaskList>
 
+                                                    <Paper className="task-list">
+                                                        <Subheader
+                                                            {...provided.dragHandleProps}
+                                                            className="task-header" type="BOARDS">
+                                                            {item.title}
+                                                        </Subheader>
+                                                        <TaskList data={item} key={index} itemId={index}></TaskList>
+                                                    </Paper>
                                                 </div>
                                             )}
                                         </Draggable>

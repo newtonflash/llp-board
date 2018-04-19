@@ -77,7 +77,8 @@ export default class GraphQLService {
                     desc,
                     taskList {
                         title,
-                        order
+                        order,
+                        id
                     }
                 }
             }
@@ -103,7 +104,8 @@ export default class GraphQLService {
                     desc,
                     taskList {
                         title,
-                        order
+                        order,
+                        id
                     }
                 }
             }

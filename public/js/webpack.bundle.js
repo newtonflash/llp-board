@@ -8132,7 +8132,7 @@ var GraphQLService = function () {
     }, {
         key: 'getBoardById',
         value: function getBoardById(id, callback) {
-            var query = '\n            {\n                getBoardById(id:"' + id + '"){\n                    id,\n                    title,\n                    desc,\n                    taskList {\n                        title,\n                        order\n                    }\n                }\n            }\n          ';
+            var query = '\n            {\n                getBoardById(id:"' + id + '"){\n                    id,\n                    title,\n                    desc,\n                    taskList {\n                        title,\n                        order,\n                        id\n                    }\n                }\n            }\n          ';
             client.query(query).then(function (resp) {
                 callback(resp.getBoardById);
             }).catch(function (e) {
@@ -8146,7 +8146,7 @@ var GraphQLService = function () {
 
             //let mutationQuery = `{ updateTaskList(id:'" + data.id + "' taskList:["+ taskList +"]){id, title, desc, taskList{title, order}}}`;
 
-            var mutation = '\n            {\n                updateTaskList( id : "' + data.id + '" , taskList: ' + JSON.stringify(taskList).replace(/\{\"/g, "{").replace(/\,\"/g, ",").replace(/\"\:/g, ":") + ' ){\n                    id,\n                    title,\n                    desc,\n                    taskList {\n                        title,\n                        order\n                    }\n                }\n            }\n          ';
+            var mutation = '\n            {\n                updateTaskList( id : "' + data.id + '" , taskList: ' + JSON.stringify(taskList).replace(/\{\"/g, "{").replace(/\,\"/g, ",").replace(/\"\:/g, ":") + ' ){\n                    id,\n                    title,\n                    desc,\n                    taskList {\n                        title,\n                        order,\n                        id\n                    }\n                }\n            }\n          ';
             client.mutate(mutation).then(function (resp) {
                 callback(resp.getBoardById);
             }).catch(function (e) {
@@ -71002,6 +71002,14 @@ var _boardActions = __webpack_require__(453);
 
 var _boardActions2 = _interopRequireDefault(_boardActions);
 
+var _Paper = __webpack_require__(27);
+
+var _Paper2 = _interopRequireDefault(_Paper);
+
+var _Subheader = __webpack_require__(174);
+
+var _Subheader2 = _interopRequireDefault(_Subheader);
+
 var _reactBeautifulDnd = __webpack_require__(207);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -71012,6 +71020,9 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var TASK_LIST = "TASK_LIST";
+var BOARDS = "BOARDS";
+
 var getListStyle = function getListStyle(isDraggingOver) {
     return {
         background: isDraggingOver ? "#f0f0f0" : "white",
@@ -71021,15 +71032,30 @@ var getListStyle = function getListStyle(isDraggingOver) {
     };
 };
 
-var reorder = function reorder(list, startIndex, endIndex) {
-    var result = Array.from(list);
+var reorder = function reorder(orderType, taskLists, source, destination) {
 
-    var _result$splice = result.splice(startIndex, 1),
-        _result$splice2 = _slicedToArray(_result$splice, 1),
-        removed = _result$splice2[0];
+    console.log(source);
 
-    result.splice(endIndex, 0, removed);
-    return result;
+    console.log(destination);
+
+    var resultantArr = Array.from(taskLists);
+
+    if (orderType === BOARDS) {
+        var _resultantArr$splice = resultantArr.splice(source.index, 1),
+            _resultantArr$splice2 = _slicedToArray(_resultantArr$splice, 1),
+            removed = _resultantArr$splice2[0];
+
+        resultantArr.splice(destination.index, 0, removed);
+    }
+
+    if (orderType === TASK_LIST) {}
+
+    return resultantArr;
+
+    /* const result = Array.from(list);
+     const [removed] = result.splice(startIndex, 1);
+     result.splice(endIndex, 0, removed);
+     return result;*/
 };
 
 var Board = function (_Component) {
@@ -71083,7 +71109,11 @@ var Board = function (_Component) {
                 return;
             }
 
-            var items = reorder(this.props.board.taskList, result.source.index, result.destination.index);
+            var orderType = TASK_LIST;
+
+            if (result.destination.droppableId.indexOf(BOARDS) > -1) orderType = BOARDS;
+
+            var items = reorder(orderType, this.props.board.taskList, result.source, result.destination);
 
             this.props.board.taskList = items;
             console.log(this.props.board);
@@ -71112,7 +71142,7 @@ var Board = function (_Component) {
                     }),
                     _react2.default.createElement(
                         _reactBeautifulDnd.Droppable,
-                        { droppableId: 'droppable', direction: 'horizontal' },
+                        { droppableId: 'BOARDS', direction: 'horizontal', type: 'BOARDS' },
                         function (provided, snapshot) {
                             return _react2.default.createElement(
                                 'div',
@@ -71123,14 +71153,24 @@ var Board = function (_Component) {
                                 taskList.map(function (item, index) {
                                     return _react2.default.createElement(
                                         _reactBeautifulDnd.Draggable,
-                                        { key: index, draggableId: index, index: index },
+                                        { key: index, draggableId: item.order, index: index, type: 'BOARDS' },
                                         function (provided, snapshot) {
                                             return _react2.default.createElement(
                                                 'div',
                                                 _extends({
                                                     ref: provided.innerRef
-                                                }, provided.draggableProps, provided.dragHandleProps),
-                                                _react2.default.createElement(_taskList2.default, { data: item, key: index })
+                                                }, provided.draggableProps),
+                                                _react2.default.createElement(
+                                                    _Paper2.default,
+                                                    { className: 'task-list' },
+                                                    _react2.default.createElement(
+                                                        _Subheader2.default,
+                                                        _extends({}, provided.dragHandleProps, {
+                                                            className: 'task-header', type: 'BOARDS' }),
+                                                        item.title
+                                                    ),
+                                                    _react2.default.createElement(_taskList2.default, { data: item, key: index, itemId: index })
+                                                )
                                             );
                                         }
                                     );
@@ -78121,6 +78161,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(1);
@@ -78169,6 +78211,8 @@ var _taskList = __webpack_require__(450);
 
 var _taskList2 = _interopRequireDefault(_taskList);
 
+var _reactBeautifulDnd = __webpack_require__(207);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -78177,44 +78221,82 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var getListStyle = function getListStyle(isDraggingOver) {
+    return {
+        background: isDraggingOver ? "#f0f0f0" : "white"
+
+    };
+};
+
 var TaskList = function (_React$Component) {
     _inherits(TaskList, _React$Component);
 
     function TaskList(props) {
         _classCallCheck(this, TaskList);
 
-        return _possibleConstructorReturn(this, (TaskList.__proto__ || Object.getPrototypeOf(TaskList)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (TaskList.__proto__ || Object.getPrototypeOf(TaskList)).call(this, props));
+
+        _this.state = {
+            list: [{
+                title: "Task 1",
+                desc: "Here is my task 1 description"
+            }, {
+                title: "Task 2",
+                desc: "Here is my task 1 description"
+            }, {
+                title: "Task 3",
+                desc: "Here is my task 1 description"
+            }, {
+                title: "Task 4",
+                desc: "Here is my task 1 description"
+            }]
+        };
+
+        return _this;
     }
 
     _createClass(TaskList, [{
-        key: 'onDescriptionChange',
-        value: function onDescriptionChange(event) {}
-    }, {
         key: 'render',
         value: function render() {
+            var list = this.state.list;
+
+            var itemId = this.props.itemId;
+            var UID = this.props.data.id;
+
+            var getListItems = list.map(function (item, i) {
+
+                return _react2.default.createElement(
+                    _reactBeautifulDnd.Draggable,
+                    { key: i + itemId, draggableId: 10000 + i + UID, index: 900000 + i, type: 'TASK' },
+                    function (provided, snapshot) {
+                        return _react2.default.createElement(
+                            'div',
+                            _extends({
+                                ref: provided.innerRef
+                            }, provided.dragHandleProps, provided.draggableProps),
+                            _react2.default.createElement(_List.ListItem, { className: 'taskItem', key: i, primaryText: item.title })
+                        );
+                    }
+                );
+            });
+
             return _react2.default.createElement(
-                _react2.default.Fragment,
+                _List.List,
                 null,
                 _react2.default.createElement(
-                    _Paper2.default,
-                    { className: 'task-list', zDepth: 1 },
-                    _react2.default.createElement(
-                        _List.List,
-                        null,
-                        _react2.default.createElement(
-                            _Subheader2.default,
-                            { className: 'task-header' },
-                            this.props.data.title
-                        ),
-                        _react2.default.createElement(_List.ListItem, { className: 'task', primaryText: 'Brendan Lim' }),
-                        _react2.default.createElement(_List.ListItem, { className: 'task', primaryText: 'Brendan Lim' }),
-                        _react2.default.createElement(_List.ListItem, { className: 'task', primaryText: 'Brendan Lim' }),
-                        _react2.default.createElement(_List.ListItem, { className: 'task', primaryText: 'Brendan Lim' }),
-                        _react2.default.createElement(_List.ListItem, { className: 'task', primaryText: 'Brendan Lim' }),
-                        _react2.default.createElement(_List.ListItem, { className: 'task', primaryText: ' + Add another task' })
-                    ),
-                    _react2.default.createElement(_Divider2.default, null)
-                )
+                    _reactBeautifulDnd.Droppable,
+                    { droppableId: "TASK_LIST__" + this.props.data.id, type: 'TASK', direction: 'vertical' },
+                    function (provided, snapshot) {
+                        return _react2.default.createElement(
+                            'div',
+                            _extends({
+                                ref: provided.innerRef
+                            }, provided.droppableProps),
+                            getListItems
+                        );
+                    }
+                ),
+                _react2.default.createElement(_List.ListItem, { className: 'task', primaryText: ' + Add another task' })
             );
         }
     }]);

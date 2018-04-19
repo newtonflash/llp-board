@@ -17,6 +17,8 @@ describe('Dashboard Reducers', () => {
         type : Events.UPDATE_DASHBOARD,
         data: updateDashboardData
     });
+    it("should return the new modified state", ()=>{
+        expect(updateDashBoard.boards["title"]).to.equal("hellow");
+    });
 
-    expect(updateDashBoard.boards["title"]).to.equal("hellow");
 });
