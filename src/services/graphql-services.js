@@ -78,7 +78,12 @@ export default class GraphQLService {
                     taskList {
                         title,
                         order,
-                        id
+                        id,
+                        tasks{
+                          title,
+                          desc
+                        }
+
                     }
                 }
             }

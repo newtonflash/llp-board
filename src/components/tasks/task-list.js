@@ -14,6 +14,8 @@ import styles from './../task-list.css';
 
 import { Droppable,Draggable } from 'react-beautiful-dnd';
 
+import AddTask from './add-task';
+
 const getListStyle = isDraggingOver => ({
     background: isDraggingOver ? "#f0f0f0" : "white"
 
@@ -23,38 +25,20 @@ export default class TaskList extends React.Component {
 
     constructor(props){
         super(props);
+        this.onAddTask = this.onAddTask.bind(this);
+    }
 
-        this.state={
-            list:
-            [
-                {
-                    title : "Task 1",
-                    desc : "Here is my task 1 description"
-                },
-                {
-                    title : "Task 2",
-                    desc : "Here is my task 1 description"
-                },
-                {
-                    title : "Task 3",
-                    desc : "Here is my task 1 description"
-                },
-                {
-                    title : "Task 4",
-                    desc : "Here is my task 1 description"
-                }
-            ]
-        }
-
+    onAddTask(newListItem) {
+        this.props.onTaskAdd(this.props.data.id, newListItem);
     }
 
     render(){
 
-        let {list} = this.state;
+        let {tasks} = this.props.data;
         let itemId = this.props.itemId;
         let UID = this.props.data.id;
 
-        let getListItems = list.map((item, i)=> {
+        let getListItems = tasks.map((item, i)=> {
 
            return (
 
@@ -89,7 +73,8 @@ export default class TaskList extends React.Component {
                     )}
                 </Droppable>
 
-                <ListItem className="task" primaryText=" + Add another task"/>
+                <AddTask onAddTask={this.onAddTask}/>
+
             </List>
         )
     }

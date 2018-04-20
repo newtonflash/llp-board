@@ -84,6 +84,8 @@ const board = new GraphQLObjectType({
     })
 });
 
+//==========================================================      INPUT STREAMS    ======================
+
 const TaskInput = new GraphQLInputObjectType ({
     name: 'TaskInput',
     description: 'Task object',
@@ -103,27 +105,6 @@ const TaskInput = new GraphQLInputObjectType ({
     })
 });
 
-const TaskListInput = new GraphQLInputObjectType({
-    name : 'TaskListInput',
-    fields : () => ({
-        id : {
-            type: GraphQLString,
-            description: 'id of the board'
-        },
-        title : {
-            type: GraphQLString,
-            description: 'title'
-        },
-        desc : {
-            type: GraphQLString,
-            description: 'desc'
-        },
-        taskList : {
-            type: new GraphQLList(TaskInput),
-            description: 'Task list'
-        }
-    })
-});
 
 const TaskListArrayInput = new GraphQLInputObjectType({
     name : 'TaskListArrayInput',
@@ -144,8 +125,8 @@ const TaskListArrayInput = new GraphQLInputObjectType({
             type: GraphQLInt,
             description: 'order of the fields'
         },
-        taskList : {
-            type: new GraphQLList(TaskListInput),
+        tasks : {
+            type: new GraphQLList(TaskInput),
             description: 'Task list'
         }
     })

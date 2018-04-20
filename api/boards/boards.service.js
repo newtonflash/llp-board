@@ -4,17 +4,60 @@ const defaultListData = [
     {
         title : "Not Started",
         order : 1,
-        tasks : []
+        tasks : [
+            {
+                "title": "Sample task 1",
+                "desc": "sample task description"
+            },
+            {
+                "title": "Edit/delete this task 1",
+                "desc": "sample task description"
+
+            },
+            {
+                "title": "Create your new task 1",
+                "desc": "sample task description"
+            }
+
+        ]
     },
     {
         title : "On going",
         order : 2,
-        tasks : []
+        tasks : [
+            {
+                "title": "Sample task 2",
+                "desc": "sample task description"
+            },
+            {
+                "title": "Edit/delete this task 2",
+                "desc": "sample task description"
+
+            },
+            {
+                "title": "Create your new task 2",
+                "desc": "sample task description"
+            }
+        ]
     },
     {
         title : "Completed",
         order : 3,
-        tasks : []
+        tasks : [
+            {
+                "title": "Sample task 3",
+                "desc": "sample task description"
+            },
+            {
+                "title": "Edit/delete this task 3",
+                "desc": "sample task description"
+
+            },
+            {
+                "title": "Create your new task 3",
+                "desc": "sample task description"
+            }
+        ]
     }
 ]
 

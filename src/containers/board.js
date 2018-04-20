@@ -11,7 +11,7 @@ import BoardItem from './../components/board-item.jsx';
 import  { Redirect } from 'react-router-dom';
 import {connect} from 'react-redux';
 import TaskList from '../components/tasks/task-list';
-import AddTaskList from '../components/add-task-list';
+import AddTaskList from '../components/tasks/add-task-list';
 import BoardActions from "../actions/board-actions";
 import Paper from 'material-ui/Paper';
 import Subheader from 'material-ui/Subheader';
@@ -32,11 +32,6 @@ const getListStyle = isDraggingOver => ({
 
 const reorder = (orderType, taskLists, source, destination) => {
 
-    console.log(source);
-
-    console.log(destination);
-
-
     const resultantArr =  Array.from(taskLists);
 
     if(orderType === BOARDS){
@@ -45,15 +40,9 @@ const reorder = (orderType, taskLists, source, destination) => {
     }
 
     if(orderType ===  TASK_LIST){
-
+        // todo sorting of elements
     }
-
     return resultantArr;
-
-   /* const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-    return result;*/
 };
 
 class Board extends Component {
@@ -63,8 +52,9 @@ class Board extends Component {
         this.boardId = this.props.match.params.id;
         this.state = {
 
-        }
+        };
         this.onDragEnd = this.onDragEnd.bind(this);
+        this.onTaskAdd = this.onTaskAdd.bind(this);
     }
 
     componentDidMount () {
@@ -111,20 +101,26 @@ class Board extends Component {
 
         this.props.board.taskList = items;
         console.log(this.props.board);
-        this.props.dispatch(BoardActions.reorderTaskList(this.props.board));
+        // this action should have been done asynchronous.. in ideal scenario, it should only send and updation to server.
+        this.props.dispatch(BoardActions.updateBoardData(this.props.board));
     }
 
+    onTaskAdd (taskListId, newTask){
+        this.props.board.taskList.map((item)=>{
+            if(item.id === taskListId){
+                item.tasks.push(newTask)
+            }
+        })
+        this.props.dispatch(BoardActions.updateBoardData(this.props.board));
+    }
 
     render() {
-
         const {taskList} = this.props.board;
-
         return (
             <DragDropContext onDragEnd={this.onDragEnd}>
                 <React.Fragment>
                     <AppBar
                         title={this.props.board.title}
-
                         iconElementRight={
                             <Link to="/">
                                 <FlatButton className="app-bar-link" label="Back to Dashboard"/>
@@ -149,14 +145,13 @@ class Board extends Component {
                                                     ref={provided.innerRef}
                                                     {...provided.draggableProps}
                                                 >
-
                                                     <Paper className="task-list">
                                                         <Subheader
                                                             {...provided.dragHandleProps}
                                                             className="task-header" type="BOARDS">
                                                             {item.title}
                                                         </Subheader>
-                                                        <TaskList data={item} key={index} itemId={index}></TaskList>
+                                                        <TaskList data={item} key={index} itemId={index} onTaskAdd={this.onTaskAdd}></TaskList>
                                                     </Paper>
                                                 </div>
                                             )}

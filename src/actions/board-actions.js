@@ -32,10 +32,9 @@ const BoardActions = {
         }
     },
 
-    reorderTaskList: (data) => {
+    updateBoardData: (data) => {
         return dispatch => {
             GraphQLService.updateTaskList(data, (res)=> {
-
                 dispatch(updateTaskList(data));
             });
 
