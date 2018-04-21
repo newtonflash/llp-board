@@ -15,6 +15,7 @@ import AddTaskList from '../components/tasks/add-task-list';
 import BoardActions from "../actions/board-actions";
 import Paper from 'material-ui/Paper';
 import Subheader from 'material-ui/Subheader';
+import Divider from 'material-ui/Divider';
 
 
 import { Droppable,Draggable, DragDropContext } from 'react-beautiful-dnd';
@@ -114,6 +115,14 @@ class Board extends Component {
         this.props.dispatch(BoardActions.updateBoardData(this.props.board));
     }
 
+    onTaskUpdate(taskListId, task){
+
+    }
+
+    onTaskRemove(taskListId, task){
+
+    }
+
     render() {
         const {taskList} = this.props.board;
         return (
@@ -151,7 +160,14 @@ class Board extends Component {
                                                             className="task-header" type="BOARDS">
                                                             {item.title}
                                                         </Subheader>
-                                                        <TaskList data={item} key={index} itemId={index} onTaskAdd={this.onTaskAdd}></TaskList>
+                                                        <Divider />
+                                                        <TaskList data={item}
+                                                                  key={index}
+                                                                  itemId={index}
+                                                                  onTaskAdd={this.onTaskAdd}
+                                                                  onTaskRemove = {this.onTaskRemove}
+                                                                  onTaskUpdate = {this.onTaskUpdate}
+                                                        ></TaskList>
                                                     </Paper>
                                                 </div>
                                             )}

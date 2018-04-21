@@ -18,6 +18,10 @@ const task = new GraphQLObjectType ({
     name: 'task',
     description: 'Task object',
     fields : () => ({
+        id : {
+            type: GraphQLString,
+            description: 'Title of individual task'
+        },
         title : {
             type: GraphQLString,
             description: 'Title of individual task'
@@ -90,6 +94,10 @@ const TaskInput = new GraphQLInputObjectType ({
     name: 'TaskInput',
     description: 'Task object',
     fields : () => ({
+        id: {
+            type: GraphQLString,
+            description: 'task id'
+        },
         title : {
             type: GraphQLString,
             description: 'Title of individual task'

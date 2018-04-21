@@ -21,7 +21,7 @@ const updateTaskList = data => {
         type : Events.BOARD_UPDATE,
         data: data
     }
-}
+};
 
 const BoardActions = {
     getBoardData: (id) => {
@@ -41,7 +41,5 @@ const BoardActions = {
         }
     }
 };
-
-
 
 export  default BoardActions;

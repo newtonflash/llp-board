@@ -12,6 +12,8 @@ import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
 import styles from './../task-list.css';
 
+import TaskItem from './task-item.jsx';
+
 import { Droppable,Draggable } from 'react-beautiful-dnd';
 
 import AddTask from './add-task';
@@ -37,6 +39,8 @@ export default class TaskList extends React.Component {
         let {tasks} = this.props.data;
         let itemId = this.props.itemId;
         let UID = this.props.data.id;
+        let itemRemoveCB = this.props.onTaskRemove;
+        let itemUpdateCB = this.props.onTaskUpdate;
 
         let getListItems = tasks.map((item, i)=> {
 
@@ -49,10 +53,13 @@ export default class TaskList extends React.Component {
                                {...provided.dragHandleProps}
                                {...provided.draggableProps}
                            >
-                               <ListItem className="taskItem" key={i} primaryText={item.title}  />
-
+                               <TaskItem className="taskItem"
+                                         key={i}
+                                         item={item}
+                                         onItemRemove={itemRemoveCB}
+                                         onItemUpdate={itemUpdateCB}
+                               />
                            </div>
-
                        )}
                    </Draggable>
                )

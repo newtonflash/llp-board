@@ -81,7 +81,8 @@ export default class GraphQLService {
                         id,
                         tasks{
                           title,
-                          desc
+                          desc,
+                          id
                         }
 
                     }
@@ -118,6 +119,7 @@ export default class GraphQLService {
        client.mutate(mutation)
             .then(resp => {
                 callback(resp.getBoardById);
+
             }).catch(function(e) {
             console.log(e);
         })

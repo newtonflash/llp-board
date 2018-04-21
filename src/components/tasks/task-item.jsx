@@ -1,28 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {ListItem} from 'material-ui/List';
+import Dialog from 'material-ui/Dialog';
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
 
-export default class TaskItem extends React.PureCompoent{
+export default class TaskItem extends React.PureComponent{
     constructor (props){
         super(props);
         this.state = {
-            isEditDialogOpen: false
+            isEditDialogOpen: false,
+            title : this.props.item.title,
+            desc : this.props.item.desc
         };
         this.onTitleChange = this.onTitleChange.bind(this);
-        this.onItemRemove = this.onItemRemove.bind(this);
-        this.onItemUpdate = this.onItemUpdate.bind(this);
-    }
-
-    static propTypes = {
-        id: PropTypes.string.isRequired,
-        title : PropTypes.string.isRequired,
-        onItemRemove : PropTypes.function.isRequired,
-        onUpdateboard : PropTypes.function.isRequired
-    };
-
-    onView(){
-        this.setState({
-            redirect:true
-        })
+        this.onDescChange = this.onDescChange.bind(this);
+        this.onTaskRemove = this.onTaskRemove.bind(this);
+        this.onTaskUpdate = this.onTaskUpdate.bind(this);
+        this.closeEditDialog = this.closeEditDialog.bind(this);
     }
 
     closeEditDialog(){
@@ -34,68 +30,61 @@ export default class TaskItem extends React.PureCompoent{
     openEditDialog(){
         this.setState({
             isEditDialogOpen    : true,
-            editableTitle       : this.props.data.title
+            title               : this.props.item.title,
+            desc                : this.props.item.desc
         })
     }
 
-    onItemRemove () {
-        this.props.onItemRemove(this.props.data.id);
+    onTaskRemove () {
+        this.props.onTaskRemove(this.props.data.id);
+    }
+
+    onTaskUpdate(){
+        this.props.onTaskRemove(this.props.data.id);
     }
 
     onTitleChange(event) {
         let _title = event.target.value;
 
         this.setState({
-            editableTitle : _title
+            title : _title
         });
     }
 
     onDescChange(event) {
         let _desc = event.target.value;
         this.setState({
-            editableDesc : _desc
+            desc : _desc
         });
     }
 
     onUpdateSubmit(evt) {
-        let boardData = {
-            id : this.props.data.id,
-            title: this.state.editableTitle,
-            desc: this.state.editableDesc
+        let updateTask = {
+            title: this.state.title,
+            desc: this.state.desc
         };
 
-        this.props.onUpdateboard(boardData);
+        console.log(this.props.item);
+
+        this.props.onUpdateboard(updateTask);
         this.setState({
             isEditDialogOpen    : false
         })
     }
 
     render(){
+        const {title, desc} = this.props.item;
         return (
-            <Paper className="boards-item">
-                <div className="boards-item__cta-holder">
-                    <IconMenu
-                        iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-                        anchorOrigin={{horizontal: 'left', vertical: 'top'}}
-                        targetOrigin={{horizontal: 'left', vertical: 'top'}}
-                    >
-                        <MenuItem primaryText="Edit" data-id={this.props.index} onClick={evt => this.openEditDialog()}  />
-                        <MenuItem primaryText="Delete" onClick={evt => this.onItemRemove()} />
-                        <MenuItem primaryText="View" onClick={evt =>this.onView()}/>
-                    </IconMenu>
-                </div>
-                <h2 onClick={evt=>this.onView()}>{this.props.data.title}</h2>
-                <p>{this.props.data.desc}</p>
-
-                <Dialog title="Update Board"
+             <React.Fragment>
+                <ListItem primaryText={title} secondaryText={desc} onClick={(evt)=>{this.openEditDialog()}} />
+                <Dialog title="Update Task"
                         modal={false}
                         open={this.state.isEditDialogOpen}
                         onRequestClose={this.closeEditDialog}>
                     <div>
-
                         <TextField
                             hintText="Enter project name"
-                            value={this.state.editableTitle}
+                            value={this.state.title}
                             onChange={(evt) => {this.onTitleChange(evt)}}/>
 
                         <br/>
@@ -106,27 +95,34 @@ export default class TaskItem extends React.PureCompoent{
                             rowsMax={4}
                             fullWidth={true}
                             hintText="Put some description"
-                            value={this.state.editableDesc}
+                            value={this.state.desc}
                             onChange={(evt) => {this.onDescChange(evt)}}/>
                         <br/>
 
 
                         <div className="form__cta-holder">
-                            <RaisedButton
-                                label="Update Task"
-                                primary={true}
-                                onClick={(evt) =>{this.onUpdateSubmit(evt)}}/>
+                            <FlatButton
+                                label="Delete Task"
+                                secondary={true}
+                                style={{margin:'0 10px'}}
+                                onClick={(evt) =>{this.onTaskRemove(evt)}}/>
 
                             <RaisedButton
-                                label="Delete Task"
+                                label="Update Task"
                                 primary={true}
                                 onClick={(evt) =>{this.onUpdateSubmit(evt)}}/>
 
                         </div>
                     </div>
                 </Dialog>
-            </Paper>
+              </React.Fragment>
         )
     }
 }
 
+TaskItem.propTypes = {
+    id: PropTypes.string,
+    title : PropTypes.string,
+    onTaskRemove : PropTypes.func,
+    onTaskUpdate : PropTypes.func
+};
