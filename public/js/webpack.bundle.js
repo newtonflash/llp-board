@@ -71045,6 +71045,22 @@ var _Divider = __webpack_require__(59);
 
 var _Divider2 = _interopRequireDefault(_Divider);
 
+var _IconMenu = __webpack_require__(315);
+
+var _IconMenu2 = _interopRequireDefault(_IconMenu);
+
+var _MenuItem = __webpack_require__(327);
+
+var _MenuItem2 = _interopRequireDefault(_MenuItem);
+
+var _IconButton = __webpack_require__(103);
+
+var _IconButton2 = _interopRequireDefault(_IconButton);
+
+var _moreVert = __webpack_require__(328);
+
+var _moreVert2 = _interopRequireDefault(_moreVert);
+
 var _reactBeautifulDnd = __webpack_require__(125);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -71212,7 +71228,29 @@ var Board = function (_Component) {
                                                         _Subheader2.default,
                                                         _extends({}, provided.dragHandleProps, {
                                                             className: 'task-header', type: 'BOARDS' }),
-                                                        item.title
+                                                        _react2.default.createElement(
+                                                            'div',
+                                                            { 'class': 'task-list__title' },
+                                                            item.title
+                                                        ),
+                                                        _react2.default.createElement(
+                                                            'div',
+                                                            { className: 'task-list__cta-holder' },
+                                                            _react2.default.createElement(
+                                                                _IconMenu2.default,
+                                                                {
+                                                                    iconButtonElement: _react2.default.createElement(
+                                                                        _IconButton2.default,
+                                                                        null,
+                                                                        _react2.default.createElement(_moreVert2.default, null)
+                                                                    ),
+                                                                    anchorOrigin: { horizontal: 'left', vertical: 'top' },
+                                                                    targetOrigin: { horizontal: 'left', vertical: 'top' }
+                                                                },
+                                                                _react2.default.createElement(_MenuItem2.default, { primaryText: 'Edit', 'data-id': _this2.props.index }),
+                                                                _react2.default.createElement(_MenuItem2.default, { primaryText: 'Delete' })
+                                                            )
+                                                        )
                                                     ),
                                                     _react2.default.createElement(_Divider2.default, null),
                                                     _react2.default.createElement(_taskList2.default, { data: item,
@@ -71389,6 +71427,10 @@ var _addTask = __webpack_require__(465);
 
 var _addTask2 = _interopRequireDefault(_addTask);
 
+var _taskList3 = __webpack_require__(506);
+
+var _taskList4 = _interopRequireDefault(_taskList3);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -71400,7 +71442,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var getListStyle = function getListStyle(isDraggingOver) {
     return {
         background: isDraggingOver ? "#f0f0f0" : "white"
-
     };
 };
 
@@ -71445,8 +71486,8 @@ var TaskList = function (_React$Component) {
                             _react2.default.createElement(_taskItem2.default, { className: 'taskItem',
                                 key: i,
                                 item: item,
-                                onItemRemove: itemRemoveCB,
-                                onItemUpdate: itemUpdateCB
+                                onTaskRemove: itemRemoveCB,
+                                onTaskUpdate: itemUpdateCB
                             })
                         );
                     }
@@ -71808,7 +71849,7 @@ var TaskItem = function (_React$PureComponent) {
     }, {
         key: 'onTaskRemove',
         value: function onTaskRemove() {
-            this.props.onTaskRemove(this.props.data.id);
+            this.props.onTaskRemove(this.props.item);
         }
     }, {
         key: 'onTaskUpdate',
@@ -71835,14 +71876,10 @@ var TaskItem = function (_React$PureComponent) {
     }, {
         key: 'onUpdateSubmit',
         value: function onUpdateSubmit(evt) {
-            var updateTask = {
-                title: this.state.title,
-                desc: this.state.desc
-            };
+            this.props.item.title = this.state.title;
+            this.props.item.desc = this.state.desc;
 
-            console.log(this.props.item);
-
-            this.props.onUpdateboard(updateTask);
+            this.props.onTaskUpdate(this.props.item);
             this.setState({
                 isEditDialogOpen: false
             });
@@ -78697,6 +78734,70 @@ var DashboardReducers = function DashboardReducers() {
 };
 
 exports.default = DashboardReducers;
+
+/***/ }),
+/* 506 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(507);
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(58)(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {
+	module.hot.accept("!!../../../node_modules/css-loader/index.js!./task-list.css", function() {
+		var newContent = require("!!../../../node_modules/css-loader/index.js!./task-list.css");
+
+		if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+
+		var locals = (function(a, b) {
+			var key, idx = 0;
+
+			for(key in a) {
+				if(!b || a[key] !== b[key]) return false;
+				idx++;
+			}
+
+			for(key in b) idx--;
+
+			return idx === 0;
+		}(content.locals, newContent.locals));
+
+		if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
+
+		update(newContent);
+	});
+
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 507 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(57)(false);
+// imports
+
+
+// module
+exports.push([module.i, ".task-header{\n    display: flex;\n}\n.task-list__title{\n    flex:0 0 calc(100% - 50px);\n}", ""]);
+
+// exports
+
 
 /***/ })
 /******/ ]);

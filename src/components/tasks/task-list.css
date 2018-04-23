@@ -1,0 +1,6 @@
+.task-header{
+    display: flex;
+}
+.task-list__title{
+    flex:0 0 calc(100% - 50px);
+}

@@ -36,7 +36,7 @@ export default class TaskItem extends React.PureComponent{
     }
 
     onTaskRemove () {
-        this.props.onTaskRemove(this.props.data.id);
+        this.props.onTaskRemove(this.props.item);
     }
 
     onTaskUpdate(){
@@ -59,17 +59,13 @@ export default class TaskItem extends React.PureComponent{
     }
 
     onUpdateSubmit(evt) {
-        let updateTask = {
-            title: this.state.title,
-            desc: this.state.desc
-        };
+        this.props.item.title = this.state.title;
+        this.props.item.desc = this.state.desc;
 
-        console.log(this.props.item);
-
-        this.props.onUpdateboard(updateTask);
+        this.props.onTaskUpdate(this.props.item);
         this.setState({
             isEditDialogOpen    : false
-        })
+        });
     }
 
     render(){

@@ -6,6 +6,9 @@ import {Link} from 'react-router-dom';
 import style from "./board.css";
 
 import styles from './dashboard.css';
+
+
+
 import BoardItem from './../components/board-item.jsx';
 
 import  { Redirect } from 'react-router-dom';
@@ -16,6 +19,11 @@ import BoardActions from "../actions/board-actions";
 import Paper from 'material-ui/Paper';
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import IconButton from 'material-ui/IconButton';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+
 
 
 import { Droppable,Draggable, DragDropContext } from 'react-beautiful-dnd';
@@ -157,8 +165,20 @@ class Board extends Component {
                                                     <Paper className="task-list">
                                                         <Subheader
                                                             {...provided.dragHandleProps}
-                                                            className="task-header" type="BOARDS">
-                                                            {item.title}
+                                                            className="task-header" type="BOARDS" >
+
+                                                            <div class="task-list__title">{item.title}</div>
+                                                            <div className="task-list__cta-holder">
+                                                                <IconMenu
+                                                                    iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+                                                                    anchorOrigin={{horizontal: 'left', vertical: 'top'}}
+                                                                    targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                                                                >
+                                                                    <MenuItem primaryText="Edit" data-id={this.props.index} />
+                                                                    <MenuItem primaryText="Delete" />
+                                                                </IconMenu>
+                                                            </div>
+
                                                         </Subheader>
                                                         <Divider />
                                                         <TaskList data={item}

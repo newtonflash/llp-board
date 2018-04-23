@@ -18,9 +18,10 @@ import { Droppable,Draggable } from 'react-beautiful-dnd';
 
 import AddTask from './add-task';
 
+import taskListStyle from './task-list.css';
+
 const getListStyle = isDraggingOver => ({
     background: isDraggingOver ? "#f0f0f0" : "white"
-
 });
 
 export default class TaskList extends React.Component {
@@ -56,8 +57,8 @@ export default class TaskList extends React.Component {
                                <TaskItem className="taskItem"
                                          key={i}
                                          item={item}
-                                         onItemRemove={itemRemoveCB}
-                                         onItemUpdate={itemUpdateCB}
+                                         onTaskRemove={itemRemoveCB}
+                                         onTaskUpdate={itemUpdateCB}
                                />
                            </div>
                        )}
