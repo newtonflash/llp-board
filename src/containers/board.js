@@ -64,6 +64,8 @@ class Board extends Component {
         };
         this.onDragEnd = this.onDragEnd.bind(this);
         this.onTaskAdd = this.onTaskAdd.bind(this);
+        this.onTaskRemove = this.onTaskRemove.bind(this);
+        this.onTaskUpdate = this.onTaskUpdate.bind(this);
     }
 
     componentDidMount () {
@@ -119,16 +121,33 @@ class Board extends Component {
             if(item.id === taskListId){
                 item.tasks.push(newTask)
             }
-        })
+        });
         this.props.dispatch(BoardActions.updateBoardData(this.props.board));
     }
 
     onTaskUpdate(taskListId, task){
+        this.props.board.taskList.map((item)=>{
+            if(item.id === taskListId){
+                item.tasks = item.tasks.map((item, i)=> {
+                    if( item.id == task.id){
+                        item = task;
+                    }
+                    return item;
+                });
+            }
+        });
 
+       this.props.dispatch(BoardActions.updateBoardData(this.props.board));
     }
 
     onTaskRemove(taskListId, task){
+        this.props.board.taskList.map((item)=>{
+            if(item.id === taskListId){
+                item.tasks = item.tasks.filter((item, i)=> {return item.id !== task.id});
+            }
+        });
 
+        this.props.dispatch(BoardActions.updateBoardData(this.props.board));
     }
 
     render() {
@@ -167,7 +186,7 @@ class Board extends Component {
                                                             {...provided.dragHandleProps}
                                                             className="task-header" type="BOARDS" >
 
-                                                            <div class="task-list__title">{item.title}</div>
+                                                            <div className="task-list__title">{item.title}</div>
                                                             <div className="task-list__cta-holder">
                                                                 <IconMenu
                                                                     iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}

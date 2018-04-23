@@ -57,6 +57,7 @@ export default class TaskList extends React.Component {
                                <TaskItem className="taskItem"
                                          key={i}
                                          item={item}
+                                         taskListId = {this.props.data.id}
                                          onTaskRemove={itemRemoveCB}
                                          onTaskUpdate={itemUpdateCB}
                                />

@@ -71114,6 +71114,8 @@ var Board = function (_Component) {
         _this.state = {};
         _this.onDragEnd = _this.onDragEnd.bind(_this);
         _this.onTaskAdd = _this.onTaskAdd.bind(_this);
+        _this.onTaskRemove = _this.onTaskRemove.bind(_this);
+        _this.onTaskUpdate = _this.onTaskUpdate.bind(_this);
         return _this;
     }
 
@@ -71176,10 +71178,33 @@ var Board = function (_Component) {
         }
     }, {
         key: 'onTaskUpdate',
-        value: function onTaskUpdate(taskListId, task) {}
+        value: function onTaskUpdate(taskListId, task) {
+            this.props.board.taskList.map(function (item) {
+                if (item.id === taskListId) {
+                    item.tasks = item.tasks.map(function (item, i) {
+                        if (item.id == task.id) {
+                            item = task;
+                        }
+                        return item;
+                    });
+                }
+            });
+
+            this.props.dispatch(_boardActions2.default.updateBoardData(this.props.board));
+        }
     }, {
         key: 'onTaskRemove',
-        value: function onTaskRemove(taskListId, task) {}
+        value: function onTaskRemove(taskListId, task) {
+            this.props.board.taskList.map(function (item) {
+                if (item.id === taskListId) {
+                    item.tasks = item.tasks.filter(function (item, i) {
+                        return item.id !== task.id;
+                    });
+                }
+            });
+
+            this.props.dispatch(_boardActions2.default.updateBoardData(this.props.board));
+        }
     }, {
         key: 'render',
         value: function render() {
@@ -71230,7 +71255,7 @@ var Board = function (_Component) {
                                                             className: 'task-header', type: 'BOARDS' }),
                                                         _react2.default.createElement(
                                                             'div',
-                                                            { 'class': 'task-list__title' },
+                                                            { className: 'task-list__title' },
                                                             item.title
                                                         ),
                                                         _react2.default.createElement(
@@ -71465,6 +71490,8 @@ var TaskList = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
+            var _this2 = this;
+
             var tasks = this.props.data.tasks;
 
             var itemId = this.props.itemId;
@@ -71486,6 +71513,7 @@ var TaskList = function (_React$Component) {
                             _react2.default.createElement(_taskItem2.default, { className: 'taskItem',
                                 key: i,
                                 item: item,
+                                taskListId: _this2.props.data.id,
                                 onTaskRemove: itemRemoveCB,
                                 onTaskUpdate: itemUpdateCB
                             })
@@ -71825,8 +71853,8 @@ var TaskItem = function (_React$PureComponent) {
         _this.onTitleChange = _this.onTitleChange.bind(_this);
         _this.onDescChange = _this.onDescChange.bind(_this);
         _this.onTaskRemove = _this.onTaskRemove.bind(_this);
-        _this.onTaskUpdate = _this.onTaskUpdate.bind(_this);
         _this.closeEditDialog = _this.closeEditDialog.bind(_this);
+        _this.onUpdateSubmit = _this.onUpdateSubmit.bind(_this);
         return _this;
     }
 
@@ -71849,12 +71877,8 @@ var TaskItem = function (_React$PureComponent) {
     }, {
         key: 'onTaskRemove',
         value: function onTaskRemove() {
-            this.props.onTaskRemove(this.props.item);
-        }
-    }, {
-        key: 'onTaskUpdate',
-        value: function onTaskUpdate() {
-            this.props.onTaskRemove(this.props.data.id);
+            this.props.onTaskRemove(this.props.taskListId, this.props.item);
+            this.closeEditDialog();
         }
     }, {
         key: 'onTitleChange',
@@ -71879,7 +71903,7 @@ var TaskItem = function (_React$PureComponent) {
             this.props.item.title = this.state.title;
             this.props.item.desc = this.state.desc;
 
-            this.props.onTaskUpdate(this.props.item);
+            this.props.onTaskUpdate(this.props.taskListId, this.props.item);
             this.setState({
                 isEditDialogOpen: false
             });
@@ -73698,7 +73722,7 @@ var AddTask = function (_React$PureComponent) {
                 _react2.default.createElement(_List.ListItem, { className: 'task', primaryText: ' + Add another task', onClick: this.onAddClick }),
                 _react2.default.createElement(
                     _Dialog2.default,
-                    { title: 'Add a board.',
+                    { title: 'Add a task',
                         modal: false,
                         open: this.state.isCreateNewTaskDialogOpen,
                         onRequestClose: this.handleClose },

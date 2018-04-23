@@ -17,8 +17,8 @@ export default class TaskItem extends React.PureComponent{
         this.onTitleChange = this.onTitleChange.bind(this);
         this.onDescChange = this.onDescChange.bind(this);
         this.onTaskRemove = this.onTaskRemove.bind(this);
-        this.onTaskUpdate = this.onTaskUpdate.bind(this);
         this.closeEditDialog = this.closeEditDialog.bind(this);
+        this.onUpdateSubmit = this.onUpdateSubmit.bind(this);
     }
 
     closeEditDialog(){
@@ -36,11 +36,9 @@ export default class TaskItem extends React.PureComponent{
     }
 
     onTaskRemove () {
-        this.props.onTaskRemove(this.props.item);
-    }
+        this.props.onTaskRemove(this.props.taskListId , this.props.item);
+        this.closeEditDialog();
 
-    onTaskUpdate(){
-        this.props.onTaskRemove(this.props.data.id);
     }
 
     onTitleChange(event) {
@@ -62,7 +60,7 @@ export default class TaskItem extends React.PureComponent{
         this.props.item.title = this.state.title;
         this.props.item.desc = this.state.desc;
 
-        this.props.onTaskUpdate(this.props.item);
+        this.props.onTaskUpdate(this.props.taskListId, this.props.item);
         this.setState({
             isEditDialogOpen    : false
         });

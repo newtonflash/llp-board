@@ -64,7 +64,7 @@ export default class AddTask extends React.PureComponent{
         return(
             <React.Fragment>
                 <ListItem className="task" primaryText=" + Add another task" onClick={this.onAddClick}/>
-                <Dialog title="Add a board."
+                <Dialog title="Add a task"
                         modal={false}
                         open={this.state.isCreateNewTaskDialogOpen}
                         onRequestClose={this.handleClose}>
