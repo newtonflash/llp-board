@@ -30,6 +30,3 @@ app.listen(config.APP_SERVER_PORT_NO, () => console.log('App listening on port:'
 
 module.exports = app;
 
-
-
-

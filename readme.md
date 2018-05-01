@@ -1,4 +1,6 @@
+##browser url:
 
+localhost:1025/
 
 ## Command to run the application
 
@@ -11,7 +13,7 @@ npm run webpack
 ## mongodb
 
  export PATH=${PATH}:/Volumes/DATA/www/databases/mongodb/bin/
- mongod --dbpath ../../databases/data/
+ mongod --dbpath ../../www/databases/data/
 
 
 

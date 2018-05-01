@@ -88,7 +88,6 @@ export default class AddTask extends React.PureComponent{
                                 onClick={(evt) =>{this.onSubmit(evt)}}/>
                         </div>
                     </div>
-
                 </Dialog>
             </React.Fragment>
         )
