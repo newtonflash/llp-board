@@ -71097,7 +71097,32 @@ var reorder = function reorder(orderType, taskLists, source, destination) {
 
     if (orderType === TASK_LIST) {
         // todo sorting of elements
+        if (source.droppableId === destination.droppableId) {
+            resultantArr = resultantArr.map(function (item) {
+                console.log(item);
+                if (item.id === source.droppableId.replace("TASK_LIST__", "")) {
+                    var _item$tasks$splice = item.tasks.splice(source.index - 900000, 1),
+                        _item$tasks$splice2 = _slicedToArray(_item$tasks$splice, 1),
+                        _removed = _item$tasks$splice2[0];
+
+                    item.tasks.splice(destination.index, 0, _removed);
+                }
+                return item;
+            });
+        } else {
+            var sourceList = resultantArr.filter(function (item, i) {
+                return item.id === source.droppableId.replace("TASK_LIST__", "");
+            });
+            console.log(sourceList);
+
+            var destinationList = resultantArr.filter(function (item, i) {
+                return item.id === destination.droppableId.replace("TASK_LIST__", "");
+            });
+        }
+
+        //const [removed] = resultantArr.
     }
+
     return resultantArr;
 };
 
@@ -71163,6 +71188,7 @@ var Board = function (_Component) {
 
             this.props.board.taskList = items;
             console.log(this.props.board);
+
             // this action should have been done asynchronous.. in ideal scenario, it should only send and updation to server.
             this.props.dispatch(_boardActions2.default.updateBoardData(this.props.board));
         }

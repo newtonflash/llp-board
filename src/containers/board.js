@@ -41,16 +41,41 @@ const getListStyle = isDraggingOver => ({
 
 const reorder = (orderType, taskLists, source, destination) => {
 
-    const resultantArr =  Array.from(taskLists);
+    let resultantArr =  Array.from(taskLists);
 
     if(orderType === BOARDS){
         const [removed] = resultantArr.splice(source.index, 1);
         resultantArr.splice(destination.index, 0, removed);
     }
 
+
     if(orderType ===  TASK_LIST){
         // todo sorting of elements
+        if(source.droppableId === destination.droppableId){
+            resultantArr = resultantArr.map((item)=>{
+                console.log(item);
+                if(item.id === source.droppableId.replace("TASK_LIST__", "") ){
+                    const [removed] = item.tasks.splice(source.index - 900000, 1);
+                    item.tasks.splice(destination.index, 0, removed);
+                }
+                return item;
+            });
+
+        } else {
+            let sourceList = resultantArr.filter((item, i)=>{
+                return item.id === source.droppableId.replace("TASK_LIST__", "");
+            });
+            console.log(sourceList);
+
+            let destinationList = resultantArr.filter((item, i)=>{
+                return item.id === destination.droppableId.replace("TASK_LIST__", "");
+            });
+        }
+
+        //const [removed] = resultantArr.
+
     }
+
     return resultantArr;
 };
 
@@ -112,6 +137,7 @@ class Board extends Component {
 
         this.props.board.taskList = items;
         console.log(this.props.board);
+
         // this action should have been done asynchronous.. in ideal scenario, it should only send and updation to server.
         this.props.dispatch(BoardActions.updateBoardData(this.props.board));
     }

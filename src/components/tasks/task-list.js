@@ -66,7 +66,6 @@ export default class TaskList extends React.Component {
                    </Draggable>
                )
 
-
         });
 
         return (
